@@ -1,0 +1,4 @@
+1. Stored geometry is in SRID=1 (lat-long), in order to set SRID=1 on created geometry, the GeomFromText function has to be used.
+
+ST_GeomFromText('LINESTRING(-82.449499 35.591869,-82.449853 35.591965)',1)
+

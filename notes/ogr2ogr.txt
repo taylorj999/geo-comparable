@@ -8,4 +8,14 @@ setx GDAL_DATA "C:\Program Files\GDAL\gdal-data"
 
 3. ogr2ogr data load syntax
 
-ogr2ogr -f "MySQL" MYSQL:"SCHEMANAME,host=localhost,user=USER,password=PASSWORD,port=3306" -nln "world" -a_srs "EPSG:4326" C:\Development\gis\file_to_import.shp
+ogr2ogr -f "MySQL" MYSQL:"SCHEMANAME,host=localhost,user=USER,password=PASSWORD,port=3306" -nln "TABLENAME" -t_srs "EPSG:4326" C:\Development\gis\file_to_import.shp
+
+The option ( -t_srs "ESPG:4326" ) imports the data in lat-long coordinates.
+
+The options ( -skipfailures ) may be needed for importing parcel data because of some very large parcels in the dataset
+owned by the local government and thus not relevant to the application.
+
+4. ogr2ogr does not use significant CPU time but is exceedingly slow
+
+Loading the parcel data file (60mb) takes approximately 1 hour
+
