@@ -1,0 +1,11 @@
+1. ogr2ogr currently distributed as part of the GDAL package at
+
+http://www.gisinternals.com/query.html?content=filelist&file=release-1911-x64-gdal-2-2-3-mapserver-7-0-7.zip
+
+2. ogr2ogr requires the GDAL_DATA environment variable to be set (standard would be C:\Program Files\GDAL\gdal-data)
+
+setx GDAL_DATA "C:\Program Files\GDAL\gdal-data"
+
+3. ogr2ogr data load syntax
+
+ogr2ogr -f "MySQL" MYSQL:"SCHEMANAME,host=localhost,user=USER,password=PASSWORD,port=3306" -nln "world" -a_srs "EPSG:4326" C:\Development\gis\file_to_import.shp
