@@ -1,11 +1,14 @@
 {
-  "name": "gro-comparable",
+  "name": "geo-comparable",
   "version": "0.0.1",
   "description": "NodeJS MySQL property comparable data generator",
   "scripts": {
-    "start" : "node app.js"
+    "start": "node app.js"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taylorj999/geo-comparable.git"
+  },
   "keywords": [
     "node.js",
     "eclipse",
@@ -15,10 +18,11 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
-	"express":"latest",
-	"ejs":"latest",
-	"popper.js":"latest",
-	"jquery":"latest",
-	"bootstrap":"latest"
+    "express": "~4.16.3",
+    "ejs": "~2.5.9",
+    "popper.js": "latest",
+    "jquery": "latest",
+    "bootstrap": "latest",
+    "mysql": "2.15.0"
   }
 }
