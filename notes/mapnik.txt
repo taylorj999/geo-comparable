@@ -1,0 +1,4 @@
+1. The latest version of mapnik is 3.7.2, but fails to build on windows (apparently a misconfiguration of the install script?).
+The last mapnik version to have a precompiled binary for windows is 3.6.2, which necessitates its use here.
+
+See: https://github.com/mapnik/node-mapnik#windows-specific

@@ -18,11 +18,16 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
-    "express": "~4.16.3",
-    "ejs": "~2.5.9",
-    "popper.js": "latest",
-    "jquery": "latest",
     "bootstrap": "latest",
-    "mysql": "2.15.0"
+    "ejs": "~2.5.9",
+    "express": "~4.16.3",
+    "jquery": "latest",
+    "mapnik-vector-tile": "^1.6.1",
+    "mysql": "2.15.0",
+    "nan": "^2.10.0",
+    "node-pre-gyp": "^0.10.0",
+    "popper.js": "latest",
+    "protozero": "^1.5.1",
+    "mapnik": "3.6.2"
   }
 }
