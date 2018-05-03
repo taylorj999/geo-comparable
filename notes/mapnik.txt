@@ -2,3 +2,33 @@
 The last mapnik version to have a precompiled binary for windows is 3.6.2, which necessitates its use here.
 
 See: https://github.com/mapnik/node-mapnik#windows-specific
+
+2. mapnikify for converting geoJSON to mapnik XML has some dependency issues which for now can be resolved using a local fork
+
+local linking:
+
+[From the npm-link documentation:
+
+In the local module directory:
+
+$ cd ./package-dir
+$ npm link
+
+In the directory of the project to use the module:
+
+$ cd ./project-dir
+$ npm link package-name
+
+Or in one go using relative paths:
+
+$ cd ./project-dir
+$ npm link ../package-dir
+
+This is equivalent to using two commands above under the hood.]
+
+3. mapnik stylesheet xml info url
+
+https://github.com/mapnik/mapnik/wiki/XMLConfigReference
+
+4. mapnik @mapbox components sometimes require GDAL libraries, however the auto-install of GDAL seems to not work
+properly. Adding gdal 0.9.6 explicitly to the package.json seems to have resolved the errors.

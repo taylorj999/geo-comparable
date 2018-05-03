@@ -18,16 +18,25 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
+    "@mapbox/geojson-normalize": "0.0.1",
+    "@mapbox/mapnik-omnivore": "8.5.0",
+    "@mapbox/tilelive": "^6.0.0",
+    "@mapbox/tilelive-omnivore": "3.5.0",
+    "agentkeepalive": "^3.4.1",
     "bootstrap": "latest",
     "ejs": "~2.5.9",
     "express": "~4.16.3",
+    "gdal": "^0.9.6",
     "jquery": "latest",
+    "mapnik": "3.6.2",
     "mapnik-vector-tile": "^1.6.1",
     "mysql": "2.15.0",
     "nan": "^2.10.0",
     "node-pre-gyp": "^0.10.0",
     "popper.js": "latest",
     "protozero": "^1.5.1",
-    "mapnik": "3.6.2"
+    "queue-async": "^1.2.1",
+    "request": "^2.85.0",
+    "tilelive-mapnik": "^0.6.18"
   }
 }
