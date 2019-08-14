@@ -32,3 +32,6 @@ https://github.com/mapnik/mapnik/wiki/XMLConfigReference
 
 4. mapnik @mapbox components sometimes require GDAL libraries, however the auto-install of GDAL seems to not work
 properly. Adding gdal 0.9.6 explicitly to the package.json seems to have resolved the errors.
+
+5. The last version of mapnik that can be easily set up for windows (v3.6.2) now also requires no higher a node version than v8.16.0.
+As linux is able to run higher versions of mapnik without issue, development on windows is no longer recommended.
