@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "NodeJS MySQL property comparable data generator",
   "scripts": {
-    "test": "jest ./test",
+    "test": "jest",
     "build": "npm run build-server && npm run build-client",
     "build-server": "babel src/server --out-dir ./dist",
     "build-client": "babel src/client --copy-files --out-dir ./dist/public",
@@ -34,7 +34,7 @@
     "jquery": "latest",
     "mapnik": "3.6.2",
     "mapnik-vector-tile": "^1.6.1",
-    "mysql": "2.15.0",
+    "mysql": "^2.15.0",
     "nan": "^2.10.0",
     "node-pre-gyp": "^0.10.0",
     "popper.js": "latest",
