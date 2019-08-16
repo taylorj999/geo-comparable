@@ -3,8 +3,11 @@
   "version": "0.0.1",
   "description": "NodeJS MySQL property comparable data generator",
   "scripts": {
-    "start": "node app.js",
-    "test": "jest ./test"
+    "test": "jest ./test",
+    "build": "npm run build-server && npm run build-client",    
+    "build-server": "babel src/server --out-dir ./dist",    
+    "build-client": "babel src/client --copy-files --out-dir ./dist/public",    
+    "start": "node ./dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -42,6 +45,11 @@
     "tilelive-mapnik": "^0.6.18"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "jest": "^24.8.0"
+  },
+  "jest": {
+    "setupFilesAfterEnv": ["./setup.jest.js"] 
   }
 }
