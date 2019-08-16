@@ -4,10 +4,12 @@
   "description": "NodeJS MySQL property comparable data generator",
   "scripts": {
     "test": "jest",
-    "build": "npm run build-server && npm run build-client",
+    "clean": "rimraf dist",
+    "build": "webpack",
+    "build-babel": "npm run build-server && npm run build-client",
     "build-server": "babel src/server --out-dir ./dist",
     "build-client": "babel src/client --copy-files --out-dir ./dist/public",
-    "start": "node ./dist/index.js"
+    "start": "node ./dist/server.js"
   },
   "repository": {
     "type": "git",
@@ -34,21 +36,30 @@
     "jquery": "latest",
     "mapnik": "3.6.2",
     "mapnik-vector-tile": "^1.6.1",
-    "mysql": "^2.15.0",
+    "mysql": "^2.17.1",
     "nan": "^2.10.0",
     "node-pre-gyp": "^0.10.0",
     "popper.js": "latest",
     "promise": "^8.0.3",
     "protozero": "^1.5.1",
     "queue-async": "^1.2.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "request": "^2.85.0",
     "tilelive-mapnik": "^0.6.18"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "ajv": "^6.9.1",
+    "babel-loader": "^8.0.6",
     "babel-preset-env": "^1.7.0",
-    "jest": "^24.8.0"
+    "html-webpack-plugin": "^3.2.0",
+    "jest": "^24.8.0",
+    "rimraf": "^3.0.0",
+    "webpack": "^3.12.0",
+    "webpack-node-externals": "^1.7.2"
   },
   "jest": {
     "setupFilesAfterEnv": [
