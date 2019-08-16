@@ -56,21 +56,25 @@
     "ajv": "^6.9.1",
     "babel-loader": "^8.0.6",
     "babel-preset-env": "^1.7.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^24.8.0",
+    "react-test-renderer": "^16.9.0",
     "rimraf": "^3.0.0",
     "webpack": "^3.12.0",
     "webpack-node-externals": "^1.7.2"
   },
   "babel": {
     "presets": [
-        "@babel/env",
-        "@babel/react"
+      "@babel/env",
+      "@babel/react"
     ]
   },
   "jest": {
     "setupFilesAfterEnv": [
-      "./setup.jest.js"
+      "./setup.jest.js",
+      "./enzyme.setup.js"
     ]
   }
 }
