@@ -1,6 +1,7 @@
 let path = require('path');
 let nodeExternals = require('webpack-node-externals');
 
+const webpack = require('webpack')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 
 const moduleObj = {
@@ -24,7 +25,12 @@ const client = {
 	plugins: [
 		new HtmlWebPackPlugin({
 			template: 'src/client/index.html'
-			})
+			}),
+		new webpack.DefinePlugin({
+	        'process.env': {
+	           'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+	           }
+	        })
 		]
 	};
 
