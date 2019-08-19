@@ -1,6 +1,5 @@
 let path = require('path');
 let nodeExternals = require('webpack-node-externals');
-let combineLoaders = require('webpack-combine-loaders');
 
 const webpack = require('webpack')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
@@ -9,19 +8,11 @@ const moduleObj = {
 	rules: [{
 		test: /\.js$/,
 		exclude: /node_modules/,
-		loaders: ["babel-loader"],
+		use: ['babel-loader'],
 		},
 		{
 		test: /\.css$/,
-		loader: combineLoaders([
-			{
-				loader: 'style-loader'
-			}, {
-				loader: 'css-loader',
-			    query: {
-			    	modules: true
-			    }
-			}])
+		use: ['style-loader','css-loader']
 		}]
     };
 
