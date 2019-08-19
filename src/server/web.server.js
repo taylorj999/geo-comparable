@@ -1,11 +1,13 @@
 const express = require('express');
 const config  = require('./config/config');
+const routes  = require('./routes/routes');
 
 export default class WebServer {  
 	constructor () {
 		this.app = express();
 		this.app.use(express.static('dist/public'));
 		this.app.set('port', process.env.PORT || config.system.serverPort);
+		routes(this.app);
 	}
 
 	start () {

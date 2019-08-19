@@ -1,5 +1,5 @@
 var mapnik = require('mapnik');
-var mapnikify = require('../includes/mapnikify');
+var mapnikify = require('../src/server/routes/mapnikify');
 var Promise = require('promise');
 
 describe('Started',() => {
