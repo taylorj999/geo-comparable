@@ -1,14 +1,27 @@
 let path = require('path');
 let nodeExternals = require('webpack-node-externals');
+let combineLoaders = require('webpack-combine-loaders');
 
 const webpack = require('webpack')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 
 const moduleObj = {
-	loaders: [{
+	rules: [{
 		test: /\.js$/,
 		exclude: /node_modules/,
 		loaders: ["babel-loader"],
+		},
+		{
+		test: /\.css$/,
+		loader: combineLoaders([
+			{
+				loader: 'style-loader'
+			}, {
+				loader: 'css-loader',
+			    query: {
+			    	modules: true
+			    }
+			}])
 		}]
     };
 
@@ -25,12 +38,7 @@ const client = {
 	plugins: [
 		new HtmlWebPackPlugin({
 			template: 'src/client/index.html'
-			}),
-		new webpack.DefinePlugin({
-	        'process.env': {
-	           'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-	           }
-	        })
+			})
 		]
 	};
 
