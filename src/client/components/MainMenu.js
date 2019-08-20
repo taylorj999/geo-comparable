@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Navbar, NavbarBrand } from 'reactstrap';
-import DefaultHome from './DefaultHome';
+import ContentWell from './ContentWell';
 
 export default class MainMenu extends Component {
   constructor(props) {
 	super(props);
   }
-	  
+    
   render() {
     return (
       <div>
@@ -18,7 +18,7 @@ export default class MainMenu extends Component {
             </NavbarBrand>
           </div>
         </Navbar>
-        <DefaultHome/>
+        <ContentWell/>
       </div>
     );
   }

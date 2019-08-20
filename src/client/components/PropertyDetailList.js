@@ -9,11 +9,13 @@ export default class PropertyDetailList extends Component {
   
   render() {
     return (
-      <div className="list-group">
+      <div>
       {this.state.properties.map((row,index) => (
-      <div className="propertyDetail list-group-item" key="{index}">
-        <div className="propertyDetailAddress w-100">{row.address}</div>
-        <div className="propertyDetailPrice w-100">{row.price}</div>
+      <div className="propertyDetail card w-100" key={index}>
+        <div className="card-body">
+          <h5 className="propertyDetailAddress card-title">{row.address}</h5>
+          <p className="propertyDetailPrice card-text">{row.price}</p>
+        </div>
       </div>
       ))}
       </div>
