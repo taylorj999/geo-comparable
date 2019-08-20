@@ -30,7 +30,18 @@ const client = {
 		new HtmlWebPackPlugin({
 			template: 'src/client/index.html'
 			})
-		]
+		],
+	optimization: {
+		splitChunks: {
+			cacheGroups: {
+				commons: {
+					test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+			        name: 'vendors',
+			        chunks: 'all'
+			    }
+			}
+		}
+	}
 };
 
 const server = {
