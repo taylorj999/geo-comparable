@@ -14,7 +14,7 @@ const moduleObj = {
 		test: /\.css$/,
 		use: ['style-loader','css-loader']
 		}]
-    };
+};
 
 const client = {
 	entry: {
@@ -31,7 +31,7 @@ const client = {
 			template: 'src/client/index.html'
 			})
 		]
-	};
+};
 
 const server = {
 	entry: {
@@ -44,6 +44,6 @@ const server = {
 		},
 	module: moduleObj,
 	externals: [nodeExternals()]
-	};
+};
 
 module.exports = [client, server];
