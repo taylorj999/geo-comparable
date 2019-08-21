@@ -1,6 +1,6 @@
 import DataSource from '../src/server/datasourcepooled'
 
-describe('Started', () => {  
+describe('Datasource Pool', () => {  
 	let dataSource = null;
 
 	beforeAll(() => {    dataSource = new DataSource();  });
