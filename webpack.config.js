@@ -11,9 +11,26 @@ const moduleObj = {
 		use: ['babel-loader'],
 		},
 		{
-		test: /\.css$/,
-		use: ['style-loader','css-loader']
-		}]
+		  test: /\.(scss|sass)$/,
+		  exclude: /node_modules/,
+		  loaders: [
+		    {
+		      loader: 'css-loader',
+		      options: {
+		        modules: {
+			        localIdentName: '[local]___[hash:base64:5]'		        	
+		        },
+		        sourceMap: true,
+		        importLoaders: 1
+		      }
+		    },
+		   'sass-loader'
+		  ]
+		},
+		{
+			test: /\.css$/,
+			use: ['style-loader','css-loader']
+		},]
 };
 
 const client = {
