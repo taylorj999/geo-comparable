@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import DefaultHome from './DefaultHome';
 import DefaultSearchResults from './DefaultSearchResults';
+import PropertySearch from './PropertySearch';
 
 export default class MainMenu extends Component {
   constructor(props) {
@@ -13,16 +14,20 @@ export default class MainMenu extends Component {
   }
   
   render() {
-	if (this.state.contentPage === "defaultSearchResults") {
+	switch (this.state.contentPage) {
+	  case "defaultSearchResults":
 		return(
 			<DefaultSearchResults/>
 		);
-	} else {
+		break;
+	  case "propertySearch":
+		return(
+			<PropertySearch/>
+		);
+		break;
+	  default:
 		return (
-			<div>
-			  <div>{this.state.contentPage}</div>
-			  <DefaultHome contentWellSelect={contentPage => this.contentWellSelect(contentPage)}/>
-			</div>
+		  <DefaultHome contentWellSelect={contentPage => this.contentWellSelect(contentPage)}/>
 		);
 	}
   }

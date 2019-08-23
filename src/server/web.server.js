@@ -1,6 +1,7 @@
 const express = require('express');
 const config  = require('./config/config');
 const routes  = require('./routes/routes');
+
 import DataSource from './datasourcepooled';
 
 export default class WebServer {  
@@ -8,6 +9,8 @@ export default class WebServer {
 		this.app = express();
 		this.app.use(express.static('dist/public'));
 		this.app.set('port', process.env.PORT || config.system.serverPort);
+		
+		this.app.use(express.json());
 	}
 
 	start () {
