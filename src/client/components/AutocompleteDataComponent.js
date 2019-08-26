@@ -14,7 +14,8 @@ export default class AutocompleteContainer extends React.Component {
         	inputName: this.props.inputName,
             results: [ ],
             loading: false,
-            selected: ''
+            selected: '',
+            emptySearchResults: false
         };
     }
 
@@ -24,6 +25,7 @@ export default class AutocompleteContainer extends React.Component {
         value = value.trim( );
         if( value == "" ) {
             this.state.loading = false;
+            this.state.emptySearchResults = false;
             this.setState( this.state );
             return;
         }
@@ -38,10 +40,11 @@ export default class AutocompleteContainer extends React.Component {
             for (let x=0;x<res.data.data.length;x++) {
         	  newStreets.push(res.data.data[x].streetnames);
             }
+            if (res.data.data.length > 0) { this.state.emptySearchResults = false; } else { this.state.emptySearchResults = true; }
             this.state.results = newStreets;
             this.setState(this.state);
           } else {
-        	console.log(res.data.error);
+        	console.log("Error in API component, see server logs for details");
           }
         })
         .catch(function (error) {
@@ -63,7 +66,8 @@ export default class AutocompleteContainer extends React.Component {
                 onSearch={this.onSearch.bind( this )}
                 onSelect={this.onSelect.bind( this )}
                 results={this.state.results}
-                loading={this.state.loading}/>
+                loading={this.state.loading}
+                emptySearchResults={this.state.emptySearchResults}/>
         );
     }
 }

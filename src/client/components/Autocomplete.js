@@ -13,7 +13,8 @@ export default class Autocomplete extends React.Component {
             selected: false,
             hover: false,
             results: this.props.results,
-            loading: this.props.loading
+            loading: this.props.loading,
+            emptySearchResults: this.props.emptySearchResults
         };
         
         this.inputRef = createRef();
@@ -24,7 +25,8 @@ export default class Autocomplete extends React.Component {
             selected: false,
             hover: false,
             results: nextProps.results,
-            loading: nextProps.loading
+            loading: nextProps.loading,
+            emptySearchResults: nextProps.emptySearchResults
         } );
     }
 
@@ -62,7 +64,7 @@ export default class Autocomplete extends React.Component {
                  ref={this.inputRef} 
                  onBlur={this.onBlur.bind(this)} 
                  onChange={this.onChange.bind( this )} 
-                 placeholder="Search a city..." 
+                 placeholder="Ex. STAFFORD ST" 
                  id={this.state.inputName}/> 
 
                 {function(){
@@ -70,7 +72,9 @@ export default class Autocomplete extends React.Component {
                         return <ul className="dropdown-menu show" aria-labelledby={this.state.inputName}>{( !this.state.selected ) ? this.state.results.map(function( item, index ){
                             return <li className="dropdown-item" onClick={(e) => this.select(index)}>{item}</li>
                         }.bind( this )) : ''}</ul>
-                    } else return "";
+                    } else if ( this.state.emptySearchResults ){
+                    	return <ul className="dropdown-menu show"><li className="dropdown-item"><i>No streets found.</i></li></ul>
+                    }
                 }.bind(this)()}
             </div>
         );
