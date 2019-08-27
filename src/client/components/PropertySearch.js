@@ -21,13 +21,13 @@ export default class PropertySearch extends Component {
 		    <div className="form-row d-flex align-items-center">
 		      <div className="col-6">
 		        <div className="form-group">
-		          <label for="streetNameInput">Street Name</label>
+		          <label htmlFor="streetNameInput">Street Name</label>
 		          <AutocompleteDataComponent inputName="streetNameInput"/>
 		        </div>
 		      </div>
 		      <div className="col">
 		        <div className="form-group">
-		          <label for="minPriceInput">Min. Price</label>
+		          <label htmlFor="minPriceInput">Min. Price</label>
 		          <input 
 		           type="text" 
 		           className="form-control" 
@@ -38,7 +38,7 @@ export default class PropertySearch extends Component {
 	          </div>
 		      <div className="col">
 		        <div className="form-group">
-		          <label for="maxPriceInput">Max. Price</label>
+		          <label htmlFor="maxPriceInput">Max. Price</label>
 		          <input 
 		           type="text" 
 		           className="form-control" 
@@ -48,17 +48,17 @@ export default class PropertySearch extends Component {
 		        </div>
 		      </div>
 		      <div className="col">
-		        <button type="submit" class="btn btn-primary">Search</button>
+		        <button type="submit" className="btn btn-primary">Search</button>
 		      </div>
 		    </div>
 		  </form>
 	    </div>
 	    <div className="row">
-	      <div classname="container w-100">
-	        <div classname="col-8">
+	      <div className="container w-100">
+	        <div className="col-8">
 	          <PropertyDetailList properties={this.state.properties}/>
 	        </div>
-	        <div classname="col-4">
+	        <div className="col-4">
 	          <MapnikImage/>
 	        </div>
 	      </div>
