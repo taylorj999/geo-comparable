@@ -4,14 +4,18 @@ import datetime
 import mysql.connector
 import json
 
-# parse the command line arguments to see if there are
-# any default tags specified
+# parse the command line arguments
 parser = argparse.ArgumentParser()
-parser.add_argument('--dbhost',action='store')
-parser.add_argument('--dbname',action='store')
-parser.add_argument('--dbuser',action='store')
-parser.add_argument('--dbpass',action='store')
-parser.add_argument('--limit',action='store_true')
+parser.add_argument('--dbhost',action='store',
+                    help='IP address of the database')
+parser.add_argument('--dbname',action='store',
+                    help='Name of the database schema')
+parser.add_argument('--dbuser',action='store',
+                    help='Database user name (requires update/insert privs to the chosen schema)')
+parser.add_argument('--dbpass',action='store',
+                    help='Database password for given username')
+parser.add_argument('--limit',action='store_true',
+                    help='For testing purposes, only execute the script for the first valid property')
 args = parser.parse_args()
 
 if args.dbhost == None or args.dbname == None or args.dbuser == None or args.dbpass == None:
@@ -40,12 +44,17 @@ for (fid, shape, housenumbe, numbersuff, direction, streetname, streettype) in c
     sum = float(0.0)
     vsum = [0,0]
     # check for extremely complicated property lots with multiple parts
+    # if we detect the 'MultiPolygon' type it means that the arrays of points are themselves in an array
+    # so the various polygons need to be combined into one big array
     pointlist = []
     if thejson['type'] == "MultiPolygon":
         for (j) in range(0,len(thejson['coordinates'][0])):
             pointlist += thejson['coordinates'][0][j]
     else:
         pointlist = thejson['coordinates'][0]
+#        print json.dumps(pointlist, sort_keys=True, indent=4, separators=(',', ': '))
+
+    # "Center of gravity" formula for a polygon of arbitrary shape given x,y coordinate pairs
     for (i) in range(0,len(pointlist)):
         p1 = pointlist[i]
         p2 = pointlist[(i+1) % len(pointlist[0])]
@@ -64,6 +73,7 @@ for (fid, shape, housenumbe, numbersuff, direction, streetname, streettype) in c
 #    print format(vsum[0],'3.13f')
 #    print format(vsum[1],'3.13f')
     
+    # 'housenumbe' is cut off due to the field name limit in the original GIS data
     address = housenumbe
     if len(numbersuff) > 0:
         address = address + " " + numbersuff
@@ -81,15 +91,5 @@ for (fid, shape, housenumbe, numbersuff, direction, streetname, streettype) in c
     conn.commit()
     upsertcursor.close()
     
-#        float z = 1.0f / (3.0f * sum);
-#    return Point(vsum.x * z, vsum.y * z);
-#        
-#    for (point) in thejson['coordinates'][0]:
-#        x = float(point[0])
-#        y = float(point[1])
-#        print format(x,'3.13f')
-#        print format(y,'3.13f')
-#        print json.dumps(point, sort_keys=True, indent=4, separators=(',', ': '))
-
 cursor.close()
 conn.close()
