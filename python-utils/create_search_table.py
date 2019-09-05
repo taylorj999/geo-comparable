@@ -6,13 +6,13 @@ import json
 
 # parse the command line arguments
 parser = argparse.ArgumentParser()
-parser.add_argument('--dbhost',action='store',
+parser.add_argument('--dbhost',action='store', required=True,
                     help='IP address of the database')
-parser.add_argument('--dbname',action='store',
+parser.add_argument('--dbname',action='store', required=True,
                     help='Name of the database schema')
-parser.add_argument('--dbuser',action='store',
+parser.add_argument('--dbuser',action='store', required=True,
                     help='Database user name (requires update/insert privs to the chosen schema)')
-parser.add_argument('--dbpass',action='store',
+parser.add_argument('--dbpass',action='store', required=True,
                     help='Database password for given username')
 parser.add_argument('--limit',action='store_true',
                     help='For testing purposes, only execute the script for the first valid property')
