@@ -14,6 +14,7 @@ describe('Input validator', () => {
 		await expect(inputCheck.isValidNumericInput(undefined)).toBe(false);
 		await expect(inputCheck.isValidNumericInput(null)).toBe(false);
 		await expect(inputCheck.isValidNumericInput('')).toBe(false);
+		await expect(inputCheck.isValidNumericInput('this is totally not a number')).toBe(false);
 		await expect(inputCheck.isValidNumericInput('0')).toBe(true);
 		await expect(inputCheck.isValidNumericInput('1000')).toBe(true);
 		await expect(inputCheck.isValidNumericInput('0100')).toBe(true);

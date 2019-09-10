@@ -21,7 +21,7 @@ inputchecker.prototype.isValidNumericInput = function isValidNumericInput(inputN
 		return false;
 	} else if (inputNumber.length == 0) {
 		return false;
-	} else if ((inputNumber * 1) == NaN) {
+	} else if (isNaN(inputNumber)) {
 		return false;
 	} else {
 		return true;
