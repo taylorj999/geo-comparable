@@ -1,5 +1,6 @@
 import DataSource from '../src/server/datasourcepooled'
 var PropertyDAO = require('../src/server/routes/propertyDAO').propertyDAO;
+var config = require('../src/server/config/config');
 
 describe('Property Data Access Object', () => {  
 	let dataSource = null;
@@ -23,13 +24,15 @@ describe('Property Data Access Object', () => {
 
 	test('testing property queries with impossible parameters (should return 0 rows)', async () => {
 		await expect(pDAO.doPropertySearch('ZZZZ ST',null,null,dataSource)).resolves.toHaveLength(0);
+		await expect(pDAO.doPropertySearch(null,999999,999998,dataSource)).resolves.toHaveLength(0);
 	});
 	
 	test('testing property queries that should return a full data set (limited to 10)', async () => {
-		await expect(pDAO.doPropertySearch('STUART',null,null,dataSource)).resolves.toHaveLength(10);
+		await expect(pDAO.doPropertySearch('BEAVERDAM',null,null,dataSource)).resolves.toHaveLength(config.system.propSearchLimit);
+		await expect(pDAO.doPropertySearch(null,100000,900000,dataSource)).resolves.toHaveLength(config.system.propSearchLimit);
 	});
 	
-	test('testing that pool closes without errors', async () => {
+	test('making sure that pool closes without errors', async () => {
 		await expect(dataSource.close()).resolves.toBeUndefined();
 	});
 

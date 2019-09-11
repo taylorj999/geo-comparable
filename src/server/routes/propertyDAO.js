@@ -17,26 +17,28 @@ propertyDAO.prototype.doPropertySearch = function doPropertySearch(streetName, m
 	  var streetQueryString = null;
 	  if (validStreet) { streetQueryString = '%' + streetName.toUpperCase() + '%'; }
 	  
+	  const selectClause = "SELECT sp.ogr_fid, sp.address, sp.price, st_asgeojson(sp.centerpoint) ";
+	  
 	  if (validStreet && validMin && validMax) {
-		propQuery = "SELECT sp.ogr_fid, sp.address FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
+		propQuery = selectClause + " FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
 		            "AND sp.streetname = au.streetnames AND sp.price >= ? AND sp.price <= ? ORDER BY sp.streetname LIMIT ?";
-		queryParams = [streetQueryString,minPrice,maxPrice,config.system.autoCompleteLimit];
+		queryParams = [streetQueryString,minPrice,maxPrice,config.system.propSearchLimit];
 	  } else if (validStreet && validMin && !validMax) {
-		propQuery = "SELECT sp.ogr_fid, sp.address FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
+		propQuery = selectClause + " FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
         			"AND sp.streetname = au.streetnames AND sp.price >= ? ORDER BY sp.streetname LIMIT ?";
-		queryParams = [streetQueryString,minPrice,config.system.autoCompleteLimit];
+		queryParams = [streetQueryString,minPrice,config.system.propSearchLimit];
 	  } else if (validStreet && !validMin && validMax) {
-		propQuery = "SELECT sp.ogr_fid, sp.address FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
+		propQuery = selectClause + " FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
 					"AND sp.streetname = au.streetnames AND sp.price <= ? ORDER BY sp.streetname LIMIT ?";
-		queryParams = [streetQueryString,maxPrice,config.system.autoCompleteLimit];
+		queryParams = [streetQueryString,maxPrice,config.system.propSearchLimit];
 	  } else if (!validStreet && validMin && validMax) {
-		propQuery = "SELECT sp.ogr_fid, sp.address FROM search_parcels sp WHERE " +
+		propQuery = selectClause + " FROM search_parcels sp WHERE " +
            			"sp.price >= ? AND sp.price <= ? ORDER BY sp.streetname LIMIT ?";
-		queryParams = [minPrice,maxPrice,config.system.autoCompleteLimit];
+		queryParams = [minPrice,maxPrice,config.system.propSearchLimit];
 	  } else if (validStreet && !validMin && !validMax) {
-		propQuery = "SELECT sp.ogr_fid, sp.address FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
+		propQuery = selectClause + " FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
 					"AND sp.streetname = au.streetnames ORDER BY sp.streetname LIMIT ?";
-		queryParams = [streetQueryString,config.system.autoCompleteLimit];
+		queryParams = [streetQueryString,config.system.propSearchLimit];
 	  } else {
 		reject(new Error('You must submit a valid street name and/or minimum + maximum price'));
 	  }
