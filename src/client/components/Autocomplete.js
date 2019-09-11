@@ -36,12 +36,7 @@ export default class Autocomplete extends React.Component {
 
     onBlur( e ) {
         setTimeout( function(){
-            var state = { };
-            state.selected = false;
-            state.hover = false;
-            state.results = [ ];
-
-            this.setState( state );
+            this.props.onBlur();
         }.bind( this ), 250 );
     }
 
@@ -58,7 +53,7 @@ export default class Autocomplete extends React.Component {
     }
 
     render( ) {
-        return (
+    	return (
             <div className="autocomplete dropdown show">
                 <input 
                  ref={this.inputRef} 

@@ -24,14 +24,11 @@ export default class AutocompleteContainer extends React.Component {
 
         value = value.trim( );
         if( value == "" ) {
-            this.state.loading = false;
-            this.state.emptySearchResults = false;
-            this.setState( this.state );
+            this.setState( { loading: false, emptySearchResults: false } );
             return;
         }
 
-        this.state.loading = true;
-        this.setState( this.state );
+        this.setState( { loading: true } );
         
         axios.post("/api-autocomplete", { apiKey: API_KEY, searchString : value })
         .then(res => {
@@ -41,8 +38,7 @@ export default class AutocompleteContainer extends React.Component {
         	  newStreets.push(res.data.data[x].streetnames);
             }
             if (res.data.data.length > 0) { this.state.emptySearchResults = false; } else { this.state.emptySearchResults = true; }
-            this.state.results = newStreets;
-            this.setState(this.state);
+            this.setState({results: newStreets});
           } else {
         	console.log("Error in API component, see server logs for details");
           }
@@ -54,17 +50,20 @@ export default class AutocompleteContainer extends React.Component {
 
     onSelect( result, index ) {
         console.log( "selected", result, index );
-        this.state.selected = result;
-        this.state.results = [ ];
-        this.setState( this.state );
+        this.setState( { selected: result, results: [] });
     }
 
+    onBlur() {
+    	this.setState( {results:[]});
+    }
+    
     render( ) {
         return (
             <Autocomplete
             	inputName={this.state.inputName}
                 onSearch={this.onSearch.bind( this )}
                 onSelect={this.onSelect.bind( this )}
+            	onBlur={this.onBlur.bind( this )}
                 results={this.state.results}
                 loading={this.state.loading}
                 emptySearchResults={this.state.emptySearchResults}/>
