@@ -30,8 +30,7 @@ export default class PropertySearch extends Component {
     axios.post("/api-propsearch", { apiKey: API_KEY, streetName: streetName, minPrice: minPrice, maxPrice: maxPrice })
     .then(res => {
       if (res.data.status === "success") {
-    	this.state.properties = res.data.data;
-    	this.setState(this.state);
+    	this.setState({properties: res.data.data});
       } else {
     	console.log("Error in API component, see server logs for details");
       }
