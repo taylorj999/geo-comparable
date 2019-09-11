@@ -21,6 +21,8 @@ export default class PropertySearch extends Component {
   }
   
   doPropertySearch(evt){
+	evt.preventDefault();
+
 	var streetName = evt.target.elements.streetNameInput.value;
 	var minPrice = evt.target.elements.minPriceInput.value;
 	var maxPrice = evt.target.elements.maxPriceInput.value;
@@ -28,7 +30,8 @@ export default class PropertySearch extends Component {
     axios.post("/api-propsearch", { apiKey: API_KEY, streetName: streetName, minPrice: minPrice, maxPrice: maxPrice })
     .then(res => {
       if (res.data.status === "success") {
-    	console.log(res.data.data);
+    	this.state.properties = res.data.data;
+    	this.setState(this.state);
       } else {
     	console.log("Error in API component, see server logs for details");
       }
@@ -36,13 +39,11 @@ export default class PropertySearch extends Component {
     .catch(function (error) {
     	console.log(error);
     });
-	
-	evt.preventDefault();
   }
   
   render() {
 	return(
-      <div className="container w-100">
+      <div className="container">
 		<div className="row">
 		  <form onSubmit={this.doPropertySearch}>
 		    <div className="form-row d-flex align-items-center">
@@ -81,12 +82,14 @@ export default class PropertySearch extends Component {
 		  </form>
 	    </div>
 	    <div className="row">
-	      <div className="container w-100">
-	        <div className="col-8">
-	          <PropertyDetailList properties={this.state.properties}/>
-	        </div>
-	        <div className="col-4">
-	          <MapnikImage/>
+	      <div className="container">
+	        <div className="row">
+	          <div className="col-6">
+	            <PropertyDetailList properties={this.state.properties}/>
+	          </div>
+	          <div className="col-6">
+	            <MapnikImage/>
+	          </div>
 	        </div>
 	      </div>
 	    </div>
