@@ -30,14 +30,17 @@ conn = mysql.connector.connect(
 
 cursor = conn.cursor(buffered=True)
 
-query = ("SELECT ogr_fid, st_asgeojson(shape), COALESCE(housenumbe,''), COALESCE(numbersuff,''), COALESCE(direction,''), COALESCE(streetname,''), COALESCE(streettype,'') FROM parcels WHERE ogr_fid NOT IN (SELECT ogr_fid FROM search_parcels)")
+query = ("SELECT ogr_fid, totalmarke, st_asgeojson(shape), COALESCE(housenumbe,''), COALESCE(numbersuff,''), COALESCE(direction,''), COALESCE(streetname,''), COALESCE(streettype,'') FROM parcels")
+
+#query += " WHERE ogr_fid NOT IN (SELECT ogr_fid FROM search_parcels WHERE address IS NULL)"
+#query += " WHERE ogr_fid NOT IN (SELECT ogr_fid FROM search_parcels)"
 
 if args.limit == True:
     query += " LIMIT 1"
 
 cursor.execute(query, ())
 
-for (fid, shape, housenumbe, numbersuff, direction, streetname, streettype) in cursor:
+for (fid, price, shape, housenumbe, numbersuff, direction, streetname, streettype) in cursor:
     thejson = json.loads(shape)
     if thejson['type'] != "MultiPolygon" and thejson['type'] != 'Polygon':
         exit("Unexpected type detected: " + thejson['type'])
@@ -74,20 +77,23 @@ for (fid, shape, housenumbe, numbersuff, direction, streetname, streettype) in c
 #    print format(vsum[1],'3.13f')
     
     # 'housenumbe' is cut off due to the field name limit in the original GIS data
-    address = housenumbe
+    fulladdress = housenumbe
+    streetaddress = ''
     if len(numbersuff) > 0:
-        address = address + " " + numbersuff
+        fulladdress = fulladdress + " " + numbersuff
     if len(direction) > 0:
-        address = address + " " + direction
+        fulladdress = fulladdress + " " + direction
     if len(streetname) > 0:
-        address = address + " " + streetname
+        fulladdress = fulladdress + " " + streetname
+        streetaddress = streetname
     if len(streettype) > 0:
-        address = address + " " + streettype
+        fulladdress = fulladdress + " " + streettype
+        streetaddress = streetaddress + " " + streettype
     
-    upsertquery = ("INSERT INTO search_parcels (ogr_fid, address, centerpoint, shape) VALUES (%s, %s, ST_GeomFromText(%s), ST_GeomFromGeoJson(%s)) " +
-                   "ON DUPLICATE KEY UPDATE address = %s, centerpoint = ST_GeomFromText(%s), shape = ST_GeomFromGeoJson(%s)")
+    upsertquery = ("INSERT INTO search_parcels (ogr_fid, price, address, streetname, centerpoint, shape) VALUES (%s, %s, %s, ST_GeomFromText(%s), ST_GeomFromGeoJson(%s)) " +
+                   "ON DUPLICATE KEY UPDATE address = %s, price = %s, streetname = %s, centerpoint = ST_GeomFromText(%s), shape = ST_GeomFromGeoJson(%s)")
     upsertcursor = conn.cursor()
-    upsertcursor.execute(upsertquery,(fid, address, pointstr, shape, address, pointstr, shape))
+    upsertcursor.execute(upsertquery,(fid, price, fulladdress, streetaddress, pointstr, shape, fulladdress, price, streetaddress, pointstr, shape))
     conn.commit()
     upsertcursor.close()
     
