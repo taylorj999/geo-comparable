@@ -32,6 +32,10 @@ describe('Property Data Access Object', () => {
 		await expect(pDAO.doPropertySearch(null,100000,900000,dataSource)).resolves.toHaveLength(config.system.propSearchLimit);
 	});
 	
+	test('testing call to get nearby properties', async () => {
+		await expect(pDAO.doGridSearch(704,dataSource)).resolves.not.toHaveLength(0);
+	});
+	
 	test('making sure that pool closes without errors', async () => {
 		await expect(dataSource.close()).resolves.toBeUndefined();
 	});

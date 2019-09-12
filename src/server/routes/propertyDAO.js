@@ -17,7 +17,7 @@ propertyDAO.prototype.doPropertySearch = function doPropertySearch(streetName, m
 	  var streetQueryString = null;
 	  if (validStreet) { streetQueryString = '%' + streetName.toUpperCase() + '%'; }
 	  
-	  const selectClause = "SELECT sp.ogr_fid, sp.address, sp.price, st_asgeojson(sp.centerpoint) ";
+	  const selectClause = "SELECT sp.ogr_fid, sp.address, sp.price, st_asgeojson(sp.centerpoint) as centerpoint";
 	  
 	  if (validStreet && validMin && validMax) {
 		propQuery = selectClause + " FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
@@ -55,6 +55,27 @@ propertyDAO.prototype.doPropertySearch = function doPropertySearch(streetName, m
 	            	console.error(err);
 	            	reject(new Error('A database error occurred.'));
 	              });
+	  }
+	});
+}
+
+propertyDAO.prototype.doGridSearch = function doGridSearch(propertyId, dataSource) {
+	return new Promise((resolve, reject) => {
+	  var checker = new inputchecker();
+	  if (!checker.isValidNumericInput(propertyId)) {
+		  reject(new Error('Invalid property id: ' + propertyId));
+	  } else {
+		  dataSource.query("CALL ParcelsInProximity(?)",[propertyId])
+		            .then(function(rows) {
+		            	resolve(rows);
+		            }, function(err) {
+		            	console.error(err);
+		            	reject(new Error('A database error occurred'));
+		            })
+		            .catch(function(err) {
+		            	console.error(err);
+		            	reject(new Error('A database error occurred'));
+		            });
 	  }
 	});
 }
