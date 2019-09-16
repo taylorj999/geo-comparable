@@ -7,13 +7,16 @@ var sanitizers = require('../config/sanitizers');
 
 module.exports = function(app, dataSource) {
 	"use strict";
-	
+
+	/*
 	app.get('/testRender', (req,res) => {
 		var gen = new mapEngine();
 
 		gen.renderTestMap().then(function(image) { res.type('png'); res.send(image); }, function(err) { throw (err); });
 	});
+	*/
 	
+	/*
 	app.get('/testDatasource', (req,res) => {
 		var autoE = new autocompleteEngine();
 		
@@ -24,6 +27,7 @@ module.exports = function(app, dataSource) {
 		    	 
 		     });
 	});
+	*/
 	
 	app.post('/api-autocomplete', (req,res) => {
 		var autoE = new autocompleteEngine();
@@ -84,4 +88,42 @@ module.exports = function(app, dataSource) {
 		    	res.jsonp({'status':'error','error':'An error occurred getting property list'});
 		    });
 	});
+	
+	app.get('/generateMap', (req,res) => {
+		var gen = new mapEngine();
+		var pDAO = new propertyDAO();
+		var sanitizer = new sanitize();
+		
+		if (req.query.propertyId === undefined) {
+			res.status(400).send('No property ID');
+		}
+		var propertyId = req.query.propertyId;
+		
+		pDAO.doGridSearch(propertyId, dataSource)
+		    .then(function(rows) {
+		    	return gen.mapnikifyResults(rows[0]);
+		    }, 
+		    function(err) {
+		    	console.error(err);
+		    	res.status(400).send('An error occurred while accessing the database');
+		    })
+		    .then(function(mapnikXML) {
+		    	return gen.renderMapFromXML(mapnikXML);
+		    },
+		    function(err) {
+		    	console.error(err);
+		    	res.status(400).send('An error occurred while parsing the geoJSON data');
+		    })
+		    .then(function(image) { res.type('png'); res.send(image); }, 
+		    	  function(err) { 
+		    	console.error(err);
+		    	res.status(400).send('An error occurred while generating the image');
+		    })
+		    .catch(function(err) {
+		    	console.log(err);
+		    	res.jsonp({'status':'error','error':'An error occurred getting property list'});
+		    });
+	});
+	
+	
 };
