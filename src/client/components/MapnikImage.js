@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 export default class MapnikImage extends Component {
   constructor(props) {
 	super(props);
-	this.state = { propertyId : this.props.propertyId };
   }
   
   render() {
-	let imageUrl = "/testRender?propertyId=" + this.state.propertyId;
+	let imageUrl = "/testRender?propertyId=" + this.props.propertyId;
     return (
       <figure className="figure">
         <img src={imageUrl} className="figure-img img-fluid rounded" alt="Loading..."/>

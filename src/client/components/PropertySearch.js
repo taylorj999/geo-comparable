@@ -31,6 +31,7 @@ export default class PropertySearch extends Component {
     .then(res => {
       if (res.data.status === "success") {
     	this.setState({properties: res.data.data});
+    	console.log(res.data.data);
       } else {
     	console.log("Error in API component, see server logs for details");
       }
@@ -87,7 +88,13 @@ export default class PropertySearch extends Component {
 	            <PropertyDetailList properties={this.state.properties}/>
 	          </div>
 	          <div className="col-6">
-	            <MapnikImage/>
+	          {function(){
+                if( this.state.properties.length ) {
+                  return <MapnikImage propertyId={this.state.properties[0].ogr_fid} centerpoint={this.state.properties[0].centerpoint}/>
+                } else {
+                  return <MapnikImage/>	
+                }
+	          }.bind(this)()}
 	          </div>
 	        </div>
 	      </div>
