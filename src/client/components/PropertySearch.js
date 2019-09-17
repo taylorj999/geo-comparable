@@ -37,7 +37,6 @@ export default class PropertySearch extends Component {
 	if (streetName!=null) { searchState.streetName = streetName; } else { searchState.streetName = this.state.streetName; }
 	if (minPrice!=null) { searchState.minPrice = minPrice; } else { searchState.minPrice = this.state.minPrice; }
 	if (maxPrice!=null) { searchState.maxPrice = maxPrice; } else { searchState.maxPrice = this.state.maxPrice; }
-	this.setState(searchState);
 	
     if (searchState.streetName==null && searchState.minPrice==null && searchState.maxPrice==null) return;
 	
@@ -46,8 +45,7 @@ export default class PropertySearch extends Component {
     	                            resultsPage: pageNumber})
     .then(res => {
       if (res.data.status === "success") {
-    	this.setState({properties: res.data.data, propCount: res.data.count, currentPage: pageNumber});
-    	console.log(res.data.data);
+    	this.setState({properties: res.data.data, propCount: res.data.count, currentPage: pageNumber, streetName: searchState.streetName, minPrice: searchState.minPrice, maxPrice: searchState.maxPrice});
       } else {
     	console.log("Error in API component, see server logs for details");
       }
@@ -108,7 +106,8 @@ export default class PropertySearch extends Component {
 	            {function(){
 	            	if(this.state.propCount > 0) {
 	            	  try {
-	            	    var paginationKey = this.state.streetName + this.state.minPrice + this.state.maxPrice;
+	            	    var paginationKey = this.state.streetName + "-" + this.state.minPrice + "-" + this.state.maxPrice;
+	            	    console.log(paginationKey);
 	            	    return <Pagination
 	                            key={paginationKey}
 	                            pageLimit={10}
