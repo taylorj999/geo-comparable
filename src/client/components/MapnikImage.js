@@ -7,7 +7,7 @@ export default class MapnikImage extends Component {
   }
   
   render() {
-	let imageUrl = "/testRender?propertyId=" + this.props.propertyId;
+	let imageUrl = "/generateMap?propertyId=" + this.props.propertyId;
     return (
       <figure className="figure">
         <img src={imageUrl} className="figure-img img-fluid rounded" alt="Loading..."/>
