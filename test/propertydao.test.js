@@ -16,23 +16,25 @@ describe('Property Data Access Object', () => {
 	});
 
 	test('testing bad parameter combinations (should all reject)', async () => {
-		await expect(pDAO.doPropertySearch(undefined,undefined,undefined,dataSource)).rejects.toThrow('You must submit a valid street name and/or minimum + maximum price');
-		await expect(pDAO.doPropertySearch(undefined,0,undefined,dataSource)).rejects.toThrow('You must submit a valid street name and/or minimum + maximum price');
-		await expect(pDAO.doPropertySearch(undefined,undefined,5,dataSource)).rejects.toThrow('You must submit a valid street name and/or minimum + maximum price');
-		await expect(pDAO.doPropertySearch('','','',dataSource)).rejects.toThrow('You must submit a valid street name and/or minimum + maximum price');
+		await expect(pDAO.doPropertySearch(undefined,undefined,undefined,1,dataSource)).rejects.toThrow('You must submit a valid street name and/or minimum + maximum price');
+		await expect(pDAO.doPropertySearch(undefined,0,undefined,1,dataSource)).rejects.toThrow('You must submit a valid street name and/or minimum + maximum price');
+		await expect(pDAO.doPropertySearch(undefined,undefined,5,1,dataSource)).rejects.toThrow('You must submit a valid street name and/or minimum + maximum price');
+		await expect(pDAO.doPropertySearch('','','',1,dataSource)).rejects.toThrow('You must submit a valid street name and/or minimum + maximum price');
 	});
 
 	test('testing property queries with impossible parameters (should return 0 rows)', async () => {
-		await expect(pDAO.doPropertySearch('ZZZZ ST',null,null,dataSource)).resolves.toHaveLength(0);
-		await expect(pDAO.doPropertySearch(null,999999,999998,dataSource)).resolves.toHaveLength(0);
+		await expect(pDAO.doPropertySearch('ZZZZ ST',null,null,1,dataSource)).resolves.toHaveProperty('data.length',0);
+		await expect(pDAO.doPropertySearch(null,999999,999998,1,dataSource)).resolves.toHaveProperty('data.length',0);
+		await expect(pDAO.doPropertySearch('BEAVERDAM',null,null,1000,dataSource)).resolves.toHaveProperty('data.length',0);
 	});
 	
-	test('testing property queries that should return a full data set (limited to 10)', async () => {
-		await expect(pDAO.doPropertySearch('BEAVERDAM',null,null,dataSource)).resolves.toHaveLength(config.system.propSearchLimit);
-		await expect(pDAO.doPropertySearch(null,100000,900000,dataSource)).resolves.toHaveLength(config.system.propSearchLimit);
+	test('testing property queries that should return a full data set (limited to config.system.propSearchLimit)', async () => {
+		await expect(pDAO.doPropertySearch('BEAVERDAM',null,null,1,dataSource)).resolves.toHaveProperty('data.length',config.system.propSearchLimit);
+		await expect(pDAO.doPropertySearch(null,100000,900000,1,dataSource)).resolves.toHaveProperty('data.length',config.system.propSearchLimit);
 	});
 	
 	test('testing call to get nearby properties', async () => {
+		// only valid for Buncombe data set
 		await expect(pDAO.doGridSearch(704,dataSource)).resolves.not.toHaveLength(0);
 	});
 	

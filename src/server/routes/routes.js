@@ -75,10 +75,12 @@ module.exports = function(app, dataSource) {
 		if (minPrice != undefined) { minPrice = sanitizer.cleanInput(minPrice, sanitizers.numeric); }
 		var maxPrice = req.body.maxPrice;
 		if (maxPrice != undefined) { maxPrice = sanitizer.cleanInput(maxPrice, sanitizers.numeric); }
+		var resultsPage = req.body.resultsPage;
+		if (resultsPage != undefined) { resultsPage = sanitizer.cleanInput(resultsPage, sanitizers.numeric); }
 		
-		pDAO.doPropertySearch(streetName, minPrice, maxPrice, dataSource)
-		    .then(function(rows) {
-		    	res.jsonp({'status':'success','data':rows});
+		pDAO.doPropertySearch(streetName, minPrice, maxPrice, resultsPage, dataSource)
+		    .then(function(resultsWithCount) {
+		    	res.jsonp({'status':'success','data':resultsWithCount.data,'count':resultsWithCount.count});
 		    },
 		    function(err) {
 		    	res.jsonp({'status':'error','error':'An error occurred getting property list'});
