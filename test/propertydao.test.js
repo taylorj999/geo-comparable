@@ -30,7 +30,10 @@ describe('Property Data Access Object', () => {
 	
 	test('testing property queries that should return a full data set (limited to config.system.propSearchLimit)', async () => {
 		await expect(pDAO.doPropertySearch('BEAVERDAM',null,null,1,dataSource)).resolves.toHaveProperty('data.length',config.system.propSearchLimit);
+		await expect(pDAO.doPropertySearch('BEAVERDAM',10000,null,1,dataSource)).resolves.toHaveProperty('data.length',config.system.propSearchLimit);
+		await expect(pDAO.doPropertySearch('BEAVERDAM',null,1000000,1,dataSource)).resolves.toHaveProperty('data.length',config.system.propSearchLimit);
 		await expect(pDAO.doPropertySearch(null,100000,900000,1,dataSource)).resolves.toHaveProperty('data.length',config.system.propSearchLimit);
+		await expect(pDAO.doPropertySearch('BEAVERDAM',10000,1000000,1,dataSource)).resolves.toHaveProperty('data.length',config.system.propSearchLimit);
 	});
 	
 	test('testing call to get nearby properties', async () => {
