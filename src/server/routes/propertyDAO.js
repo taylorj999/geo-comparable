@@ -26,23 +26,23 @@ propertyDAO.prototype.doPropertySearch = function doPropertySearch(streetName, m
 	  
 	  if (validStreet && validMin && validMax) {
 		fromClause = "FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
-		            "AND sp.streetname = au.streetnames AND sp.price >= ? AND sp.price <= ?";
+		            "AND sp.streetname = au.streetnames AND sp.price >= ? AND sp.price <= ? AND sp.searchable = 1";
 		queryParams = [streetQueryString,minPrice,maxPrice];
 	  } else if (validStreet && validMin && !validMax) {
 		fromClause = "FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
-        			"AND sp.streetname = au.streetnames AND sp.price >= ?";
+        			"AND sp.streetname = au.streetnames AND sp.price >= ? AND sp.searchable = 1";
 		queryParams = [streetQueryString,minPrice];
 	  } else if (validStreet && !validMin && validMax) {
 		fromClause = "FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
-					"AND sp.streetname = au.streetnames AND sp.price <= ?";
+					"AND sp.streetname = au.streetnames AND sp.price <= ? AND sp.searchable = 1";
 		queryParams = [streetQueryString,maxPrice];
 	  } else if (!validStreet && validMin && validMax) {
 		fromClause = "FROM search_parcels sp WHERE " +
-           			"sp.price >= ? AND sp.price <= ?";
+           			"sp.price >= ? AND sp.price <= ? AND sp.searchable = 1";
 		queryParams = [minPrice,maxPrice];
 	  } else if (validStreet && !validMin && !validMax) {
 		fromClause = "FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
-					"AND sp.streetname = au.streetnames";
+					"AND sp.streetname = au.streetnames AND sp.searchable = 1";
 		queryParams = [streetQueryString];
 	  } else {
 		reject(new Error('You must submit a valid street name and/or minimum + maximum price'));
