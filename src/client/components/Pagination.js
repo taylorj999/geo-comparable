@@ -40,25 +40,25 @@ class Pagination extends Component {
     const pages = range(Math.max(1,this.state.currentPage-1),Math.min(this.state.maxPages,this.state.currentPage+this.state.pageRange-1));
     return(
     <div>
-    <ul class="pagination">
+    <ul className="pagination">
       {function() {
     	if (pages[0] != 1) {
     	  let pageKey = "page" + 1;
-    	  return <li class="page-item" key={pageKey}><a class="page-link" href="#" onClick={(e) => this.handleClick(1)}>&lt;&lt;</a></li>
+    	  return <li className="page-item" key={pageKey}><a className="page-link" href="#" onClick={(e) => this.handleClick(1)}>&lt;&lt;</a></li>
     	}
       }.bind(this)()}
       {pages.map(function(item,index) {
     	  let pageKey = "page" + item;
     	  if (item===this.state.currentPage) {
-    		  return <li class="page-item active" key={pageKey}><span class="page-link">{item}</span></li>
+    		  return <li className="page-item active" key={pageKey}><span class="page-link">{item}</span></li>
     	  } else {
-    		  return <li class="page-item" key={pageKey}><a class="page-link" href="#" onClick={(e) => this.handleClick(item)}>{item}</a></li>
+    		  return <li className="page-item" key={pageKey}><a className="page-link" href="#" onClick={(e) => this.handleClick(item)}>{item}</a></li>
     	  }
       }.bind(this))}
       {function() {
       	if (pages[pages.length - 1] != this.state.maxPages) {
       	  let pageKey = "page" + this.state.maxPages;
-      	  return <li class="page-item" key={pageKey}><a class="page-link" href="#" onClick={(e) => this.handleClick(this.state.maxPages)}>&gt;&gt;</a></li>
+      	  return <li className="page-item" key={pageKey}><a className="page-link" href="#" onClick={(e) => this.handleClick(this.state.maxPages)}>&gt;&gt;</a></li>
       	}
       }.bind(this)()}
     </ul>
