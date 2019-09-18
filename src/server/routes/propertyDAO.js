@@ -74,17 +74,23 @@ propertyDAO.prototype.doPropertySearch = function doPropertySearch(streetName, m
 	});
 }
 
-propertyDAO.prototype.doGridSearch = function doGridSearch(propertyId, dataSource) {
+propertyDAO.prototype.doGridSearch = function doGridSearch(propertyId, radius, dataSource) {
 	return new Promise((resolve, reject) => {
 	  var checker = new inputchecker();
 	  let resultSetReturn = {};
 	  if (!checker.isValidNumericInput(propertyId)) {
 		  reject(new Error('Invalid property id: ' + propertyId));
 	  } else {
-		  dataSource.query("CALL ParcelsInProximity(?)",[propertyId])
+		  dataSource.query("CALL ParcelsInProximity(?,?)",[propertyId,radius])
 		            .then(function(parcels) {
 		            	resultSetReturn.parcelResultSet = parcels[0];
-		            	return dataSource.query("CALL StreetsInProximity(?)",[propertyId]);
+		            	if (parcels.length > 0) {
+		            		resultSetReturn.centerpoint = parcels[0][0].centerpoint;
+			            	return dataSource.query("CALL StreetsInProximity(?,?)",[propertyId,radius]);
+		            	}
+		            	else {
+		            		reject(new Error('Found no parcels for propertyId: ' + propertyId));
+		            	}
 		            }, function(err) {
 		            	console.error(err);
 		            	reject(new Error('A database error occurred getting parcel data'));

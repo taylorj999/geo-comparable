@@ -96,13 +96,19 @@ module.exports = function(app, dataSource) {
 		var pDAO = new propertyDAO();
 		var sanitizer = new sanitize();
 		
-		if (req.query.propertyId === undefined) {
-			res.status(400).send('No property ID');
-		}
 		var propertyId = req.query.propertyId;
+		if (propertyId!=undefined) { propertyId = sanitizer.cleanInput(propertyId,sanitizers.numeric); }
+		else { res.status(400).send('No property ID'); }
+
+		var radius = req.query.radius;
+		if (radius!=undefined) { radius = sanitizer.cleanInput(radius); }
+		else { radius = 0.5; }
 		
-		pDAO.doGridSearch(propertyId, dataSource)
+		var centerpoint = null;
+		
+		pDAO.doGridSearch(propertyId, radius, dataSource)
 		    .then(function(combinedResultSet) {
+		    	centerpoint = combinedResultSet.centerpoint;
 		    	return gen.mapnikifyResults(combinedResultSet);
 		    }, 
 		    function(err) {
@@ -110,7 +116,7 @@ module.exports = function(app, dataSource) {
 		    	res.status(400).send('An error occurred while accessing the database');
 		    })
 		    .then(function(mapnikXML) {
-		    	return gen.renderMapFromXML(mapnikXML);
+		    	return gen.renderMapFromXML(mapnikXML, centerpoint, radius);
 		    },
 		    function(err) {
 		    	console.error(err);

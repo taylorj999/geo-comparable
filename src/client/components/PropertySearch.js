@@ -124,7 +124,7 @@ export default class PropertySearch extends Component {
                 if( this.state.properties.length ) {
                   return <MapnikImage propertyId={this.state.properties[0].ogr_fid} centerpoint={this.state.properties[0].centerpoint}/>
                 } else {
-                  return <MapnikImage/>	
+                  return null;	
                 }
 	          }.bind(this)()}
 	          </div>
