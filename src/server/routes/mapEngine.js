@@ -54,7 +54,7 @@ mapEngine.prototype.renderMapFromXML = function renderMapFromXML(geoXML) {
 
 mapEngine.prototype.mapnikifyResults = function mapnikifyResults(resultSet) {
 	return new Promise((resolve,reject) => {
-		customMapnikify(resultSet)
+		customMapnikify(resultSet.parcelResultSet, resultSet.streetResultSet)
 		          .then(function(xml) { resolve(xml); },
 		        		function(err) { console.error(err); reject(new Error('Error in mapnikify'));})
 		          .catch(function(err) {

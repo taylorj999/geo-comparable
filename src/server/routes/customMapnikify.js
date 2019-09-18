@@ -17,7 +17,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.<Paste>
  */
 
 /*
- * Heavily based on geojson-mapnikify by Mapbox, see above notice.
+ * Somewhat based on geojson-mapnikify by Mapbox, see above notice.
  */
 var normalize = require('@mapbox/geojson-normalize'),
     enforceDefaults = require('./mapnikify-normalizedefaults.js'),
@@ -27,19 +27,19 @@ var template = require('../config/customMapnikTemplate');
 
 module.exports = generateXML;
 
-function generateXML(resultSet) {
+function generateXML(parcelResultSet,streetResultSet) {
 	return new Promise((resolve,reject) => {
 		var theXML = template.mapStart + template.styleBlock;
-		for (var i=0; i<resultSet.length; i++) {
+		for (var i=0; i<parcelResultSet.length; i++) {
 			var curShape = null;
-			if (typeof resultSet[i].shape === 'string' || resultSet[i].shape instanceof String) {
-				curShape = JSON.parse(resultSet[i].shape);
+			if (typeof parcelResultSet[i].shape === 'string' || parcelResultSet[i].shape instanceof String) {
+				curShape = JSON.parse(parcelResultSet[i].shape);
 			} else {
-				curShape = resultSet[i].shape;
+				curShape = parcelResultSet[i].shape;
 			}
 			var gj = normalize(curShape);
 			if (!gj) { reject(new Error('invalid geoJSON')); }
-			gj.features[0].properties.name = resultSet[i].address;
+			gj.features[0].properties.name = parcelResultSet[i].address;
 			gj.features[0].properties.fill = "#FF0000";
 			theXML += template.parcelLayerBlock.replace('{{geojson}}',JSON.stringify(gj));
 		}

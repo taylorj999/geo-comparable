@@ -77,15 +77,24 @@ propertyDAO.prototype.doPropertySearch = function doPropertySearch(streetName, m
 propertyDAO.prototype.doGridSearch = function doGridSearch(propertyId, dataSource) {
 	return new Promise((resolve, reject) => {
 	  var checker = new inputchecker();
+	  let resultSetReturn = {};
 	  if (!checker.isValidNumericInput(propertyId)) {
 		  reject(new Error('Invalid property id: ' + propertyId));
 	  } else {
 		  dataSource.query("CALL ParcelsInProximity(?)",[propertyId])
-		            .then(function(rows) {
-		            	resolve(rows);
+		            .then(function(parcels) {
+		            	resultSetReturn.parcelResultSet = parcels[0];
+		            	return dataSource.query("CALL StreetsInProximity(?)",[propertyId]);
 		            }, function(err) {
 		            	console.error(err);
-		            	reject(new Error('A database error occurred'));
+		            	reject(new Error('A database error occurred getting parcel data'));
+		            })
+		            .then(function(streets) {
+		            	resultSetReturn.streetResultSet = streets[0];
+		            	resolve(resultSetReturn);
+		            }, function(err) {
+		            	console.error(err);
+		            	reject(new Error('A database error occurred getting street data'));
 		            })
 		            .catch(function(err) {
 		            	console.error(err);

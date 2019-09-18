@@ -102,8 +102,8 @@ module.exports = function(app, dataSource) {
 		var propertyId = req.query.propertyId;
 		
 		pDAO.doGridSearch(propertyId, dataSource)
-		    .then(function(rows) {
-		    	return gen.mapnikifyResults(rows[0]);
+		    .then(function(combinedResultSet) {
+		    	return gen.mapnikifyResults(combinedResultSet);
 		    }, 
 		    function(err) {
 		    	console.error(err);
