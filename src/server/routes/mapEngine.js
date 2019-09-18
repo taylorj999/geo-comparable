@@ -58,7 +58,7 @@ mapEngine.prototype.renderMapFromXML = function renderMapFromXML(geoXML,centerpo
 					let center = getJSONFromStringOrJSON(centerpoint);
 					let x = center.coordinates[0];
 					let y = center.coordinates[1];
-					boundingBox = self.convertToWebMercator(x,y,1);
+					boundingBox = self.convertToWebMercator(x,y,radius);
 				} catch (e) { console.error(e); };
 				console.dir(boundingBox);
 				if (boundingBox != null) {
@@ -81,9 +81,9 @@ mapEngine.prototype.renderMapFromXML = function renderMapFromXML(geoXML,centerpo
 	});
 }
 
-mapEngine.prototype.mapnikifyResults = function mapnikifyResults(resultSet) {
+mapEngine.prototype.mapnikifyResults = function mapnikifyResults(resultSet, radius) {
 	return new Promise((resolve,reject) => {
-		customMapnikify(resultSet.parcelResultSet, resultSet.streetResultSet)
+		customMapnikify(resultSet.parcelResultSet, resultSet.streetResultSet, radius)
 		          .then(function(xml) { resolve(xml); },
 		        		function(err) { console.error(err); reject(new Error('Error in mapnikify'));})
 		          .catch(function(err) {

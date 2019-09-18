@@ -109,7 +109,7 @@ module.exports = function(app, dataSource) {
 		pDAO.doGridSearch(propertyId, radius, dataSource)
 		    .then(function(combinedResultSet) {
 		    	centerpoint = combinedResultSet.centerpoint;
-		    	return gen.mapnikifyResults(combinedResultSet);
+		    	return gen.mapnikifyResults(combinedResultSet,radius);
 		    }, 
 		    function(err) {
 		    	console.error(err);
