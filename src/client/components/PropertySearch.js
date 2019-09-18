@@ -45,7 +45,11 @@ export default class PropertySearch extends Component {
     	                            resultsPage: pageNumber})
     .then(res => {
       if (res.data.status === "success") {
-    	this.setState({properties: res.data.data, propCount: res.data.count, currentPage: pageNumber, streetName: searchState.streetName, minPrice: searchState.minPrice, maxPrice: searchState.maxPrice});
+    	let currentProperty = null;
+    	if (res.data.data.length) { currentProperty = res.data.data[0].ogr_fid; }
+    	this.setState({properties: res.data.data, propCount: res.data.count, currentProperty: currentProperty, 
+    		           currentPage: pageNumber, streetName: searchState.streetName, 
+    		           minPrice: searchState.minPrice, maxPrice: searchState.maxPrice});
       } else {
     	console.log("Error in API component, see server logs for details");
       }
@@ -57,6 +61,10 @@ export default class PropertySearch extends Component {
   
   handlePageChange(pageNumber) {
 	  this.paginatePropertySearch(null,null,null,pageNumber);
+  }
+  
+  updateMap(propertyId) {
+	  this.setState({currentProperty:propertyId});
   }
   
   render() {
@@ -117,12 +125,12 @@ export default class PropertySearch extends Component {
 	            	  } catch (e) { }
 	            	}
 	            }.bind(this)()}
-	            <PropertyDetailList properties={this.state.properties}/>
+	            <PropertyDetailList properties={this.state.properties} mapFunction={this.updateMap.bind(this)} currentProperty={this.state.currentProperty}/>
 	          </div>
 	          <div className="col-6">
 	          {function(){
-                if( this.state.properties.length ) {
-                  return <MapnikImage propertyId={this.state.properties[0].ogr_fid} centerpoint={this.state.properties[0].centerpoint}/>
+                if( this.state.currentProperty ) {
+                  return <MapnikImage propertyId={this.state.currentProperty}/>
                 } else {
                   return null;	
                 }

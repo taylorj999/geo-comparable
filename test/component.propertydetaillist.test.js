@@ -4,7 +4,7 @@ import {shallow} from 'enzyme'
 
 describe('PropertyDetailList', () => {
 	test('test that property detail list renders', () => {
-		let properties = [{address: "456 Test Ave", price:100000},{address: "123 Test St", price: 50000}];
+		let properties = [{ogr_fid:"1", address: "456 Test Ave", price:100000},{ogr_fid:"2", address: "123 Test St", price: 50000}];
 		const wrapper = shallow(<PropertyDetailList properties={properties}/>)
 	    expect(wrapper.find('.propertyDetail').length).toBe(2);
 		expect(wrapper.find('.propertyDetailAddress').at(1).text()).toEqual("123 Test St");
