@@ -25,12 +25,19 @@ var normalize = require('@mapbox/geojson-normalize'),
 
 var template = require('../config/customMapnikTemplate');
 
-module.exports = generateXML;
+var getJSONFromStringOrJSON = require('../utils/smartparse');
 
 function generateXML(parcelResultSet,streetResultSet) {
 	return new Promise((resolve,reject) => {
+		if (parcelResultSet.length===0) {
+			return reject(new Error("Zero length result set provided to mapnikify parser"));
+		}
 		var theXML = template.mapStart + template.styleBlock;
-		for (var i=0; i<parcelResultSet.length; i++) {
+		var parcelGeoJSON = normalize(getJSONFromStringOrJSON(parcelResultSet[0].shape));
+		if (!parcelGeoJSON) { return reject(new Error('invalid geoJSON')); }
+		parcelGeoJSON.features[0].properties.name = parcelResultSet[0].address;
+		parcelGeoJSON.features[0].properties.fill = "#0080FF";
+		for (var i=1; i<parcelResultSet.length; i++) {
 			var curShape = null;
 			if (typeof parcelResultSet[i].shape === 'string' || parcelResultSet[i].shape instanceof String) {
 				curShape = JSON.parse(parcelResultSet[i].shape);
@@ -38,12 +45,34 @@ function generateXML(parcelResultSet,streetResultSet) {
 				curShape = parcelResultSet[i].shape;
 			}
 			var gj = normalize(curShape);
-			if (!gj) { reject(new Error('invalid geoJSON')); }
-			gj.features[0].properties.name = parcelResultSet[i].address;
+			if (!gj) { return reject(new Error('invalid geoJSON')); }
+//			gj.features[0].properties.name = parcelResultSet[i].address;
 			gj.features[0].properties.fill = "#FF0000";
-			theXML += template.parcelLayerBlock.replace('{{geojson}}',JSON.stringify(gj));
+			parcelGeoJSON.features.push(gj.features[0]);
 		}
+		theXML += template.parcelLayerBlock.replace('{{parcelgeojson}}',JSON.stringify(parcelGeoJSON));
+		if (streetResultSet.length > 0) {
+			var streetGeoJSON = normalize(getJSONFromStringOrJSON(streetResultSet[0].shape));
+			if (!streetGeoJSON) { return reject(new Error('invalid geoJSON')); }
+			streetGeoJSON.features[0].properties.name = streetResultSet[0].streetname;
+			streetGeoJSON.features[0].properties.stroke = "#000000";
+			streetGeoJSON.features[0].properties.width = "2";
+			streetGeoJSON.features[0].properties.opacity = "1";
+			for (var j=0;j<streetResultSet.length;j++) {
+				var gj = normalize(getJSONFromStringOrJSON(streetResultSet[j].shape));
+				if (!gj) { return reject(new Error('invalid geoJSON')); }
+				gj.features[0].properties.name = streetResultSet[j].streetname;
+				gj.features[0].properties.stroke = "#000000";
+				gj.features[0].properties.width = "2";
+				gj.features[0].properties.opacity = "1";
+				streetGeoJSON.features.push(gj.features[0]);
+			}
+			theXML += template.streetLayerBlock.replace('{{streetgeojson}}',JSON.stringify(streetGeoJSON));
+		}
+		
 		theXML += template.mapEnd;
 		resolve(theXML);
 	});
 }
+
+module.exports = generateXML;
