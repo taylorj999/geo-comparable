@@ -1,13 +1,14 @@
 var config = require('../config/config');
 
-var mapnikify = require('./mapnikify');
 var customMapnikify = require('./customMapnikify');
 
 var mapnik = require('mapnik');
 
 var getJSONFromStringOrJSON = require('../utils/smartparse');
 
-var testgeojson = {"type": "LineString", "coordinates": [[-82.4496866310505, 35.5915995599292], [-82.4497487278246, 35.5916773944812], [-82.4497053968081, 35.5918605867524], [-82.4496829370215, 35.5920193226531], [-82.4496899113975, 35.592183188315], [-82.4496279260762, 35.5923323091867], [-82.4495304232162, 35.592554624062], [-82.4495191586693, 35.5927190075827], [-82.4495641971038, 35.5929060361562]]};
+//var testgeojson = {"type": "LineString", "coordinates": [[-82.4496866310505, 35.5915995599292], [-82.4497487278246, 35.5916773944812], [-82.4497053968081, 35.5918605867524], [-82.4496829370215, 35.5920193226531], [-82.4496899113975, 35.592183188315], [-82.4496279260762, 35.5923323091867], [-82.4495304232162, 35.592554624062], [-82.4495191586693, 35.5927190075827], [-82.4495641971038, 35.5929060361562]]};
+
+var mapnikify = new customMapnikify();
 
 function mapEngine() {
 	mapnik.register_default_input_plugins();
@@ -60,7 +61,6 @@ mapEngine.prototype.renderMapFromXML = function renderMapFromXML(geoXML,centerpo
 					let y = center.coordinates[1];
 					boundingBox = self.convertToWebMercator(x,y,radius);
 				} catch (e) { console.error(e); };
-				console.dir(boundingBox);
 				if (boundingBox != null) {
 					newMap.zoomToBox(boundingBox);
 				} else {
@@ -83,7 +83,7 @@ mapEngine.prototype.renderMapFromXML = function renderMapFromXML(geoXML,centerpo
 
 mapEngine.prototype.mapnikifyResults = function mapnikifyResults(resultSet, radius) {
 	return new Promise((resolve,reject) => {
-		customMapnikify(resultSet.parcelResultSet, resultSet.streetResultSet, radius)
+		mapnikify.generateXML(resultSet.parcelResultSet, resultSet.streetResultSet, radius)
 		          .then(function(xml) { resolve(xml); },
 		        		function(err) { console.error(err); reject(new Error('Error in mapnikify'));})
 		          .catch(function(err) {
