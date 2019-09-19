@@ -1,18 +1,30 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+var placeholderImg = require('../../../public/images/GeneratingPlaceholder.png');
+
 export default class MapnikImage extends Component {
   constructor(props) {
 	super(props);
+	this.state = { loadedImage: false }
+  }
+  
+  onImageLoaded() {
+	this.setState({loadedImage:true});
   }
   
   render() {
 	let imageUrl = "/generateMap?propertyId=" + this.props.propertyId;
-    return (
-      <figure className="figure">
-        <img src={imageUrl} className="figure-img img-fluid rounded" alt="Loading..."/>
-      </figure>
-    );
+	if (this.state.loadedImage) {
+		return <img src={imageUrl} className="figure-img img-fluid rounded"/>
+	} else {
+  	  return(<div>
+	       <img src={placeholderImg} className="figure-img img-fluid rounded"/>
+      <div className="hidden">
+        <img src={imageUrl} className="hidden" onLoad={this.onImageLoaded.bind(this)}/>
+      </div>
+    </div>);
+    }
   }
 }
 

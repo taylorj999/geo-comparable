@@ -130,7 +130,8 @@ export default class PropertySearch extends Component {
 	          <div className="col-6">
 	          {function(){
                 if( this.state.currentProperty ) {
-                  return <MapnikImage propertyId={this.state.currentProperty}/>
+                  let imgKey = this.state.currentProperty;
+                  return <MapnikImage propertyId={this.state.currentProperty} key={imgKey}/>
                 } else {
                   return null;	
                 }
