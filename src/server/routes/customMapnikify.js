@@ -59,9 +59,9 @@ customMapnikify.prototype.generateFillColor = function generateFillColor(basePri
 		return "#FF3333";
 	} else if ((priceRatio > 0.85) && (priceRatio <= 0.95)) {
 		return "#FF6666";
-	} else if ((priceRatio > 0.95) && (priceRatio <= 1.05)) {
-		return "#3399FF";
-	} else if ((priceRatio > 1.05) && (priceRatio <= 1.15)) {
+//	} else if ((priceRatio > 0.95) && (priceRatio <= 1.05)) {
+//		return "#3399FF";
+	} else if ((priceRatio > 0.95) && (priceRatio <= 1.15)) {
 		return "#66FF66";
 	} else if ((priceRatio > 1.15) && (priceRatio <= 1.25)) {
 		return "#33FF33";
