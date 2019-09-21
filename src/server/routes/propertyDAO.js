@@ -21,28 +21,28 @@ propertyDAO.prototype.doPropertySearch = function doPropertySearch(streetName, m
 	  
 	  const selectClause = "SELECT sp.ogr_fid, sp.address, sp.price, st_asgeojson(sp.centerpoint) as centerpoint";
 	  const countClause = "SELECT COUNT(*) as count";
-	  const orderLimitClause = "ORDER BY sp.streetname LIMIT ? OFFSET ?";
+	  const orderLimitClause = "ORDER BY sp.streetname, sp.housenumber LIMIT ? OFFSET ?";
 	  var fromClause = null;
 	  
 	  if (validStreet && validMin && validMax) {
-		fromClause = "FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
-		            "AND sp.streetname = au.streetnames AND sp.price >= ? AND sp.price <= ? AND sp.searchable = 1";
+		fromClause = "FROM search_parcels sp INNER JOIN autocomplete_streetnames au ON sp.streetname = au.streetnames " +
+		 	         "WHERE au.streetnames LIKE ? AND sp.price >= ? AND sp.price <= ? AND sp.searchable = 1";
 		queryParams = [streetQueryString,minPrice,maxPrice];
 	  } else if (validStreet && validMin && !validMax) {
-		fromClause = "FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
-        			"AND sp.streetname = au.streetnames AND sp.price >= ? AND sp.searchable = 1";
+		fromClause = "FROM search_parcels sp INNER JOIN autocomplete_streetnames au ON sp.streetname = au.streetnames " +
+				     "WHERE au.streetnames LIKE ? AND sp.price >= ? AND sp.searchable = 1";
 		queryParams = [streetQueryString,minPrice];
 	  } else if (validStreet && !validMin && validMax) {
-		fromClause = "FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
-					"AND sp.streetname = au.streetnames AND sp.price <= ? AND sp.searchable = 1";
+		fromClause = "FROM search_parcels sp INNER JOIN autocomplete_streetnames au ON sp.streetname = au.streetnames " +
+				     "WHERE au.streetnames LIKE ? AND sp.price <= ? AND sp.searchable = 1";
 		queryParams = [streetQueryString,maxPrice];
 	  } else if (!validStreet && validMin && validMax) {
 		fromClause = "FROM search_parcels sp WHERE " +
-           			"sp.price >= ? AND sp.price <= ? AND sp.searchable = 1";
+	          			"sp.price >= ? AND sp.price <= ? AND sp.searchable = 1";
 		queryParams = [minPrice,maxPrice];
 	  } else if (validStreet && !validMin && !validMax) {
-		fromClause = "FROM search_parcels sp, autocomplete_streetnames au WHERE au.streetnames LIKE ? " +
-					"AND sp.streetname = au.streetnames AND sp.searchable = 1";
+		fromClause = "FROM search_parcels sp INNER JOIN autocomplete_streetnames au ON sp.streetname = au.streetnames " +
+				     "WHERE au.streetnames LIKE ? AND sp.searchable = 1";
 		queryParams = [streetQueryString];
 	  } else {
 		reject(new Error('You must submit a valid street name and/or minimum + maximum price'));
