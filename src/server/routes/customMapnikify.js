@@ -33,8 +33,7 @@ function customMapnikify() {
 
 customMapnikify.prototype.generateFillColor = function generateFillColor(basePrice,currentPrice) {
 	if ((basePrice === 0) || (currentPrice === 0)) {
-		console.error("Zero received in generateFillColor");
-		return "#FF8800";
+		return "#A0A0A0";
 	}
 	const priceRatio = currentPrice / basePrice;
 	// ratio buckets <.55,.55-.65,.65-.75,.75-.85,.85-.95,.95-1.05,1.05-1.15,1.15-1.25,1.25-1.35,1.35-1.45,1.45-1.55,>1.55
