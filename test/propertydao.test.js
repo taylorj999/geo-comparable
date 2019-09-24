@@ -38,7 +38,7 @@ describe('Property Data Access Object', () => {
 	
 	test('testing call to get nearby properties', async () => {
 		// only valid for Buncombe data set
-		await expect(pDAO.doGridSearch(704,0.5,dataSource)).resolves.toHaveProperty('parcelResultSet.length',46);
+		await expect(pDAO.doGridSearch(704,0.5,dataSource)).resolves.toHaveProperty('parcelResultSet.length',50);
 	});
 	
 	test('making sure that pool closes without errors', async () => {
