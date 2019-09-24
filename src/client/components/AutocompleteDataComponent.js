@@ -13,22 +13,19 @@ export default class AutocompleteContainer extends React.Component {
         this.state = {
         	inputName: this.props.inputName,
             results: [ ],
-            loading: false,
             selected: '',
             emptySearchResults: false
         };
     }
 
     onSearch( value ) {
-        this.state.results = [ ];
-
         value = value.trim( );
         if( value == "" ) {
             this.setState( { loading: false, emptySearchResults: false } );
             return;
         }
 
-        this.setState( { loading: true } );
+        this.setState( { results: [], loading: true } );
         
         axios.post("/api-autocomplete", { apiKey: API_KEY, searchString : value })
         .then(res => {
@@ -38,7 +35,7 @@ export default class AutocompleteContainer extends React.Component {
         	  newStreets.push(res.data.data[x].streetnames);
             }
             if (res.data.data.length > 0) { this.state.emptySearchResults = false; } else { this.state.emptySearchResults = true; }
-            this.setState({results: newStreets});
+            this.setState({results: newStreets, loading: false});
           } else {
         	console.log("Error in API component, see server logs for details");
           }

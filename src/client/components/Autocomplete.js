@@ -6,14 +6,12 @@ export default class Autocomplete extends React.Component {
     constructor ( props, context ) {
         super( props, context );
 
-        var inputName = this.props.inputName;
+        let inputName = this.props.inputName;
         if (inputName===undefined) { inputName = "autocompleteInput"; }
         this.state = {
         	inputName: this.props.inputName,
             selected: false,
-            hover: false,
             results: this.props.results,
-            loading: this.props.loading,
             emptySearchResults: this.props.emptySearchResults
         };
         
@@ -23,9 +21,7 @@ export default class Autocomplete extends React.Component {
     static getDerivedStateFromProps( nextProps, state) {
         return( {
             selected: false,
-            hover: false,
             results: nextProps.results,
-            loading: nextProps.loading,
             emptySearchResults: nextProps.emptySearchResults
         } );
     }
@@ -41,15 +37,11 @@ export default class Autocomplete extends React.Component {
     }
 
     select( index ) {
-        var state = { };
-        state.selected = index;
-        state.hover = false;
-        this.inputRef.current.value = this.state.results[ state.selected ];
+        this.inputRef.current.value = this.state.results[ index ];
 
-        state.results = [ ];
         this.props.onSelect(this.state.results[index], index);
         
-        this.setState( state );
+        this.setState( { results: [], selected: index } );
     }
 
     render( ) {
