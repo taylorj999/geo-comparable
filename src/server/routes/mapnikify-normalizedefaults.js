@@ -56,7 +56,7 @@ function enforceDefaults(feature) {
     if (!feature || !feature.properties || !feature.geometry) {
         return feature;
     }
-    var def = typed[feature.geometry.type];
+    let def = typed[feature.geometry.type];
     feature.properties = xtend({}, def, feature.properties);
     return feature;
 }

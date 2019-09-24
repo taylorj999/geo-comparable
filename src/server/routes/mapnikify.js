@@ -38,7 +38,7 @@ function generateXML(data, retina, callback) {
     
     if (!gj) return callback(new Error('invalid GeoJSON'));
 
-    for (var i = 0; i < gj.features.length; i++) {
+    for (let i = 0; i < gj.features.length; i++) {
         gj.features[i] = !markerURL(gj.features[i]) ? enforceDefaults(normalizeStyle(gj.features[i])) : normalizeStyle(gj.features[i]);
     }
 

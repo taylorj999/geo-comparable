@@ -7,22 +7,22 @@ function propertyDAO () {
 
 propertyDAO.prototype.doPropertySearch = function doPropertySearch(streetName, minPrice, maxPrice, resultsPage, dataSource) {
 	return new Promise((resolve,reject) => {
-	  var checker = new inputchecker();
-	  var validStreet = checker.isValidStringInput(streetName);
-	  var validMin = checker.isValidNumericInput(minPrice);
-	  var validMax = checker.isValidNumericInput(maxPrice);
-	  var propQuery = null;
-	  var queryParams = [];
-	  var resultsOffset = 0;
+	  let checker = new inputchecker();
+	  let validStreet = checker.isValidStringInput(streetName);
+	  let validMin = checker.isValidNumericInput(minPrice);
+	  let validMax = checker.isValidNumericInput(maxPrice);
+	  let propQuery = null;
+	  let queryParams = [];
+	  let resultsOffset = 0;
 
-	  var streetQueryString = null;
+	  let streetQueryString = null;
 	  if (validStreet) { streetQueryString = '%' + streetName.toUpperCase() + '%'; }
 	  if (checker.isValidNumericInput(resultsPage)) { resultsOffset = config.system.propSearchLimit * (resultsPage - 1) }
 	  
 	  const selectClause = "SELECT sp.ogr_fid, sp.address, sp.price, st_asgeojson(sp.centerpoint) as centerpoint";
 	  const countClause = "SELECT COUNT(*) as count";
 	  const orderLimitClause = "ORDER BY sp.streetname, sp.housenumber LIMIT ? OFFSET ?";
-	  var fromClause = null;
+	  let fromClause = null;
 	  
 	  if (validStreet && validMin && validMax) {
 		fromClause = "FROM search_parcels sp INNER JOIN autocomplete_streetnames au ON sp.streetname = au.streetnames " +
@@ -49,7 +49,7 @@ propertyDAO.prototype.doPropertySearch = function doPropertySearch(streetName, m
 	  }
 	  
 	  if (fromClause!=null) {
-		var propCount = 0;
+		let propCount = 0;
 		dataSource.query(countClause + " " + fromClause,queryParams)
 	              .then(function(rows) {
 	            	propCount = rows[0].count;
@@ -76,7 +76,7 @@ propertyDAO.prototype.doPropertySearch = function doPropertySearch(streetName, m
 
 propertyDAO.prototype.doGridSearch = function doGridSearch(propertyId, radius, dataSource) {
 	return new Promise((resolve, reject) => {
-	  var checker = new inputchecker();
+      let checker = new inputchecker();
 	  let resultSetReturn = {};
 	  if (!checker.isValidNumericInput(propertyId)) {
 		  reject(new Error('Invalid property id: ' + propertyId));

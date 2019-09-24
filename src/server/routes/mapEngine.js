@@ -37,12 +37,12 @@ mapEngine.prototype.convertToWebMercator = function convertToWebMercator(x,y,rad
 	const eqRadius = 6378137;
 	const eqShift = Math.PI * eqRadius;
 	const radiusInDegrees = radius / 69;
-	var x1 = (x-radiusInDegrees) * (eqShift / 180);
-	var y1 = (y-radiusInDegrees);
+	let x1 = (x-radiusInDegrees) * (eqShift / 180);
+	let y1 = (y-radiusInDegrees);
 	y1 = Math.log(Math.tan((90.0 + y1) * Math.PI / 360.0)) / (Math.PI / 180.0);
 	y1 = y1 * eqShift / 180;
-	var x2 = (x+radiusInDegrees) * eqShift / 180;
-	var y2 = (y+radiusInDegrees);
+	let x2 = (x+radiusInDegrees) * eqShift / 180;
+	let y2 = (y+radiusInDegrees);
 	y2 = Math.log(Math.tan((90.0 + y2) * Math.PI / 360.0)) / (Math.PI / 180.0);
 	y2 = y2 * eqShift / 180;
 	return [x1,y1,x2,y2];
@@ -51,7 +51,7 @@ mapEngine.prototype.convertToWebMercator = function convertToWebMercator(x,y,rad
 mapEngine.prototype.renderMapFromXML = function renderMapFromXML(geoXML,centerpoint,radius) {
 	var self=this;
 	return new Promise((resolve, reject) => {
-		var map = new mapnik.Map(512,512,'+init=epsg:3857');
+		let map = new mapnik.Map(512,512,'+init=epsg:3857');
 		self.fromStringPromise(map,geoXML)
 			.then(function(newMap) {
 				let boundingBox = null;
@@ -66,11 +66,11 @@ mapEngine.prototype.renderMapFromXML = function renderMapFromXML(geoXML,centerpo
 				} else {
 					newMap.zoomAll();
 				}
-    			var image = new mapnik.Image(newMap.width,newMap.height);
+				let image = new mapnik.Image(newMap.width,newMap.height);
     			newMap.render(image,{},function(err, image) {
     				if (err) { reject(err); }
     				else {
-    					var buffer = image.encodeSync('png');
+    					let buffer = image.encodeSync('png');
     					resolve(buffer);
     				}
       			    });

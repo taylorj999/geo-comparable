@@ -82,30 +82,30 @@ customMapnikify.prototype.generateXML = function generateXML(parcelResultSet,str
 		if (parcelResultSet.length===0) {
 			return reject(new Error("Zero length result set provided to mapnikify parser"));
 		}
-		var theXML = template.mapStart + template.styleBlock;
-		var firstParcelGeoJSON = normalize(getJSONFromStringOrJSON(parcelResultSet[0].shape));
+		let theXML = template.mapStart + template.styleBlock;
+		let firstParcelGeoJSON = normalize(getJSONFromStringOrJSON(parcelResultSet[0].shape));
 		if (!firstParcelGeoJSON) { return reject(new Error('invalid geoJSON')); }
 		firstParcelGeoJSON.features[0].properties.name = parcelResultSet[0].address;
 		firstParcelGeoJSON.features[0].properties.fill = "#0080FF";
-		var parcelGeoJSON = normalize(getJSONFromStringOrJSON(parcelResultSet[0].shape));
+		let parcelGeoJSON = normalize(getJSONFromStringOrJSON(parcelResultSet[0].shape));
 		parcelGeoJSON.features = [];
-		for (var i=1; i<parcelResultSet.length; i++) {
-			var curShape = normalize(getJSONFromStringOrJSON(parcelResultSet[i].shape));
-			var gj = normalize(curShape);
+		for (let i=1; i<parcelResultSet.length; i++) {
+			let curShape = normalize(getJSONFromStringOrJSON(parcelResultSet[i].shape));
+			let gj = normalize(curShape);
 			if (!gj) { return reject(new Error('invalid geoJSON')); }
 			gj.features[0].properties.fill = self.generateFillColor(parcelResultSet[0].price,parcelResultSet[i].price);
 			parcelGeoJSON.features.push(gj.features[0]);
 		}
 		theXML += template.parcelLayerBlock.replace('{{parcelgeojson}}',JSON.stringify(parcelGeoJSON));
 		if (streetResultSet.length > 0) {
-			var streetGeoJSON = normalize(getJSONFromStringOrJSON(streetResultSet[0].shape));
+			let streetGeoJSON = normalize(getJSONFromStringOrJSON(streetResultSet[0].shape));
 			if (!streetGeoJSON) { return reject(new Error('invalid geoJSON')); }
 			streetGeoJSON.features[0].properties.name = streetResultSet[0].streetname;
 			streetGeoJSON.features[0].properties.stroke = "#000000";
 			streetGeoJSON.features[0].properties.width = Math.max(1,2/radius);
 			streetGeoJSON.features[0].properties.opacity = "1";
-			for (var j=0;j<streetResultSet.length;j++) {
-				var gj = normalize(getJSONFromStringOrJSON(streetResultSet[j].shape));
+			for (let j=0;j<streetResultSet.length;j++) {
+				let gj = normalize(getJSONFromStringOrJSON(streetResultSet[j].shape));
 				if (!gj) { return reject(new Error('invalid geoJSON')); }
 				gj.features[0].properties.name = streetResultSet[j].streetname;
 				gj.features[0].properties.stroke = "#000000";

@@ -30,8 +30,8 @@ module.exports = function(app, dataSource) {
 	*/
 	
 	app.post('/api-autocomplete', (req,res) => {
-		var autoE = new autocompleteEngine();
-		var sanitizer = new sanitize();
+		let autoE = new autocompleteEngine();
+		let sanitizer = new sanitize();
 		
 		if (req.body.apiKey === undefined) {
 			res.jsonp({'status':'error','error':'No API key'});
@@ -41,7 +41,7 @@ module.exports = function(app, dataSource) {
 			res.jsonp({'status':'error','error':'Received null searchstring in API'});
 			return;
 		}
-		var searchString = sanitizer.cleanInput(req.body.searchString) + '%';
+		let searchString = sanitizer.cleanInput(req.body.searchString) + '%';
 		searchString = searchString.toUpperCase();
 		
 		autoE.getSuggestions(searchString,dataSource)
@@ -58,8 +58,8 @@ module.exports = function(app, dataSource) {
 	});
 	
 	app.post('/api-propsearch', (req,res) => {
-		var pDAO = new propertyDAO();
-		var sanitizer = new sanitize();
+		let pDAO = new propertyDAO();
+		let sanitizer = new sanitize();
 		
 		if (req.body.apiKey === undefined) {
 			res.jsonp({'status':'error','error':'No API key'});
@@ -69,13 +69,13 @@ module.exports = function(app, dataSource) {
 			res.jsonp({'status':'error','error':'No search parameters'});
 			return;
 		}
-		var streetName = req.body.streetName;
+		let streetName = req.body.streetName;
 		if (streetName != undefined) { streetName = sanitizer.cleanInput(streetName); }
-		var minPrice = req.body.minPrice;
+		let minPrice = req.body.minPrice;
 		if (minPrice != undefined) { minPrice = sanitizer.cleanInput(minPrice, sanitizers.numeric); }
-		var maxPrice = req.body.maxPrice;
+		let maxPrice = req.body.maxPrice;
 		if (maxPrice != undefined) { maxPrice = sanitizer.cleanInput(maxPrice, sanitizers.numeric); }
-		var resultsPage = req.body.resultsPage;
+		let resultsPage = req.body.resultsPage;
 		if (resultsPage != undefined) { resultsPage = sanitizer.cleanInput(resultsPage, sanitizers.numeric); }
 		
 		pDAO.doPropertySearch(streetName, minPrice, maxPrice, resultsPage, dataSource)
@@ -92,19 +92,19 @@ module.exports = function(app, dataSource) {
 	});
 	
 	app.get('/generateMap', (req,res) => {
-		var gen = new mapEngine();
-		var pDAO = new propertyDAO();
-		var sanitizer = new sanitize();
+		let gen = new mapEngine();
+		let pDAO = new propertyDAO();
+		let sanitizer = new sanitize();
 		
-		var propertyId = req.query.propertyId;
+		let propertyId = req.query.propertyId;
 		if (propertyId!=undefined) { propertyId = sanitizer.cleanInput(propertyId,sanitizers.numeric); }
 		else { res.status(400).send('No property ID'); }
 
-		var radius = req.query.radius;
+		let radius = req.query.radius;
 		if (radius!=undefined) { radius = sanitizer.cleanInput(radius); }
 		else { radius = 0.5; }
 		
-		var centerpoint = null;
+		let centerpoint = null;
 		
 		pDAO.doGridSearch(propertyId, radius, dataSource)
 		    .then(function(combinedResultSet) {
