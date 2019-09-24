@@ -1,8 +1,8 @@
 module.exports = {
   verbose: true,
   setupFiles: ['./jest.setup.js', './enzyme.setup.js'],
-  moduleFileExtensions: ['js', 'jsx'],
+  moduleFileExtensions: ['js', 'jsx','json'],
   moduleNameMapper: {
-      ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
-    }
+	    "\\.(css|jpg|png)$": "<rootDir>/test/empty-module.js"
+	  }
 };
