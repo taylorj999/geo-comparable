@@ -114,7 +114,7 @@ export default class PropertySearch extends Component {
 	            {function(){
 	            	if(this.state.propCount > 0) {
 	            	  try {
-	            	    var paginationKey = this.state.streetName + "-" + this.state.minPrice + "-" + this.state.maxPrice;
+	            	    let paginationKey = this.state.streetName + "-" + this.state.minPrice + "-" + this.state.maxPrice;
 	            	    console.log(paginationKey);
 	            	    return <Pagination
 	                            key={paginationKey}
