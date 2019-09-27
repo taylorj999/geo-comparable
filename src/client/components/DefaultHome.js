@@ -33,7 +33,7 @@ export default class DefaultHome extends Component {
       	    </div>
       	  </div>
       	  <div className="col-4">
-      	    <MapnikImage/>
+      	    <div/>
       	  </div>
       	</div>
       </div>

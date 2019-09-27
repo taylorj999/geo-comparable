@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import PropertyDetailList from './PropertyDetailList';
-import MapnikImage from './MapnikImage';
+import MapnikImageContainer from './MapnikImageContainer';
 import AutocompleteDataComponent from './AutocompleteDataComponent';
 
 import Pagination from './Pagination';
@@ -131,7 +131,7 @@ export default class PropertySearch extends Component {
 	          {function(){
                 if( this.state.currentProperty ) {
                   let imgKey = this.state.currentProperty;
-                  return <MapnikImage propertyId={this.state.currentProperty} key={imgKey}/>
+                  return <MapnikImageContainer propertyId={this.state.currentProperty} key={imgKey}/>
                 } else {
                   return null;	
                 }

@@ -15,15 +15,18 @@ export default class MapnikImage extends Component {
   
   render() {
 	let imageUrl = "/generateMap?propertyId=" + this.props.propertyId;
+	if (this.props.radius) {
+		imageUrl += "&radius=" + this.props.radius;
+	}
 	if (this.state.loadedImage) {
-		return <img src={imageUrl} className="figure-img img-fluid rounded"/>
+		return <img src={imageUrl} id="generatedimage" className="figure-img img-fluid rounded"/>
 	} else {
   	  return(<div>
-	       <img src={placeholderImg} className="figure-img img-fluid rounded"/>
-      <div className="hidden">
-        <img src={imageUrl} className="hidden" onLoad={this.onImageLoaded.bind(this)}/>
-      </div>
-    </div>);
+	           <img src={placeholderImg} className="figure-img img-fluid rounded"/>
+               <div className="hidden">
+                 <img src={imageUrl} id="generatedimage" className="hidden" onLoad={this.onImageLoaded.bind(this)}/>
+               </div>
+             </div>);
     }
   }
 }
