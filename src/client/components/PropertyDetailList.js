@@ -20,21 +20,29 @@ export default class PropertyDetailList extends Component {
     return (
       <div>
       {this.props.properties.map((row,index) => (
-      <div className="propertyDetail card" key={row.ogr_fid}>
-        <div className="card-body">
-          <h5 className="propertyDetailAddress card-title">{row.address}</h5>
-          <p className="propertyDetailPrice card-text">{this.prettyPrice(row.price)}</p>
-          {function() {
-        	if (this.props.mapFunction!=undefined) {
-              if (row.ogr_fid != this.props.currentProperty) {
-        		return <a href="#" className="btn btn-primary" onClick={(e) => this.handleClick(row.ogr_fid)}>Map It!</a>
-              } else {
-            	return <button type="button" className="btn btn-secondary" disabled>Map It!</button>
-              }
-        	}
-          }.bind(this)()}
+        <div className="propertyDetail container shadow-sm p-1 mb-1 bg-white rounded" key={row.ogr_fid}>
+          <div className="row">
+            <div className="col-8">
+              <h5 className="propertyDetailAddress">{row.address}</h5>
+            </div>
+            <div className="col-4 d-flex">
+            {function() {
+            	if (this.props.mapFunction!=undefined) {
+                  if (row.ogr_fid != this.props.currentProperty) {
+            		return <a href="#" className="btn btn-primary ml-auto" onClick={(e) => this.handleClick(row.ogr_fid)}>Map It!</a>
+                  } else {
+                	return <button type="button" className="btn btn-secondary ml-auto" disabled>Map It!</button>
+                  }
+            	}
+            }.bind(this)()}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <p className="propertyDetailPrice card-text">{this.prettyPrice(row.price)}</p>
+            </div>
+          </div>
         </div>
-      </div>
       ))}
       </div>
     );
