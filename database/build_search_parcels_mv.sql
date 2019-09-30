@@ -11,7 +11,9 @@ BEGIN
          st_geomfromtext(st_astext(p.shape)) as shape, 
          CONCAT(p.streetname, ' ', p.streettype) as streetname,
          cast(p.housenumbe as unsigned) as housenumber,
-         CASE WHEN p.housenumbe LIKE '9999%' THEN 0 ELSE 1 END as searchable
+         CASE WHEN p.housenumbe LIKE '9999%' THEN 0 
+              WHEN ROUND(p.totalmarke + p.saleprice) = 0 THEN 0
+			  ELSE 1 END as searchable
     FROM parcels p
    WHERE p.streetname is not null AND p.streettype is not null
   ON DUPLICATE KEY UPDATE 
@@ -21,7 +23,9 @@ BEGIN
         shape = st_geomfromtext(st_astext(p.shape)),
         streetname = CONCAT(p.streetname, ' ', p.streettype),
         housenumber = cast(p.housenumbe as unsigned),
-        searchable = CASE WHEN p.housenumbe LIKE '9999%' THEN 0 ELSE 1 END;
+        searchable = CASE WHEN p.housenumbe LIKE '9999%' THEN 0 
+                          WHEN ROUND(p.totalmarke + p.saleprice) = 0 THEN 0
+						  ELSE 1 END;
 END$$
 DELIMITER ;
 
