@@ -21,21 +21,21 @@ export default class MapnikImageContainer extends Component {
 	return(
 	  <div className="container">
 	    <div className="row">
-	      <div className="col-4"></div>
-	      <div className="col-4">
-	        <p>Select map radius</p>
-	        <div className="btn-group" role="group" aria-label="Radius selection">
+	      <div className="col d-flex justify-content-center">
+	        <div className="btn-group mb-3" role="group" aria-label="Radius selection">
 	          {this.state.validRadius.map((row,index) => {
 	        	  let butnKey = row.name + "-" + row.radius;
 	        	  if (this.state.radius != row.radius) {
-	        	    return <button type="button" id={row.name} key={butnKey} className="btn btn-primary" onClick={(e) => this.changeRadius(row.radius)}>{row.radius}&nbsp;mi</button>
+	        	    return (<button type="button" id={row.name} key={butnKey} 
+	        	            className="btn btn-primary" onClick={(e) => this.changeRadius(row.radius)}
+	        	            data-toggle="tooltip" title="Select search radius">{row.radius}&nbsp;mi</button>);
 	        	  } else {
-	        		return <button type="button" id={row.name} key={butnKey} className="btn btn-secondary">{row.radius}&nbsp;mi</button>
+	        		return (<button type="button" id={row.name} key={butnKey} 
+	        		         className="btn btn-secondary">{row.radius}&nbsp;mi</button>);
 	        	  }
 	            }
 	          )}
 	        </div>
-            <div className="col-4"></div>
 	      </div>
 	    </div>
 	    <div className="row">
