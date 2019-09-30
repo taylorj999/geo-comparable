@@ -3,11 +3,18 @@ import React from 'react'
 import {shallow} from 'enzyme'
 
 describe('PropertyDetailList', () => {
-	test('test that property detail list renders', () => {
-		let properties = [{ogr_fid:"1", address: "456 Test Ave", price:100000},{ogr_fid:"2", address: "123 Test St", price: 50000}];
-		const wrapper = shallow(<PropertyDetailList properties={properties}/>)
-	    expect(wrapper.find('.propertyDetail').length).toBe(2);
-		expect(wrapper.find('.propertyDetailAddress').at(1).text()).toEqual("123 Test St");
-	    expect(wrapper).toMatchSnapshot();
-	    })
+	var wrapper = null;
+	const testProperties=[{ogr_fid:"1", address: "456 Test Ave", price:100000},{ogr_fid:"2", address: "123 Test St", price: 50000}];
+	
+	test('test that property detail list renders without errors', () => {
+		wrapper = shallow(<PropertyDetailList properties={testProperties}/>);
+		expect(wrapper).toMatchSnapshot();
+	});
+	
+	test('test that property detail list contains all test data', () => {
+		expect(wrapper.find('.propertyDetail').length).toBe(testProperties.length);
+		for (let x=0;x<testProperties.length;x++) {
+			expect(wrapper.find('.propertyDetailAddress').at(x).text()).toEqual(testProperties[x].address);
+		}
+	});
 })
