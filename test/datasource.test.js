@@ -15,10 +15,7 @@ describe('Datasource Pool', () => {
 		await expect(promise).resolves.toEqual(2);
 	});
 	
-	test('testing that pool closes without errors', async () => {
-		let promise = dataSource.close();
-		await expect(promise).resolves.toBeUndefined();
-	});
+	afterAll(() => {	dataSource.close(); });
 	
 	});
 	
