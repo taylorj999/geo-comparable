@@ -38,20 +38,20 @@ template.styleBlock = '<Style name="Polygon">'+
 '<Rule>'+
 '  <LineSymbolizer stroke="black" stroke-width="2" />'+
 '  <PolygonSymbolizer fill="[fill]" />'+
-'  <TextSymbolizer face-name="Arial Regular" placement-type="simple" placement="X" allow-overlap="true" halo-radius="2">[name]</TextSymbolizer>'+
+'  <TextSymbolizer face-name="DejaVu Sans Book" placement-type="simple" placement="point" allow-overlap="true" halo-radius="2">[name]</TextSymbolizer>'+
 '</Rule>'+
 '</Style>' +
 '<Style name="LineString">' +
 '  <Rule>'+
 '    <LineSymbolizer stroke="[stroke]" stroke-width="[width]" stroke-opacity="[opacity]" />'+
-'    <TextSymbolizer face-name="Arial Regular" placement-type="simple" placement="line" allow-overlap="true" halo-radius="2">[name]</TextSymbolizer>'+
+'    <TextSymbolizer face-name="DejaVu Sans Book" placement-type="simple" placement="line" allow-overlap="true" halo-radius="2">[name]</TextSymbolizer>'+
 '  </Rule>'+
 '</Style>'+
 '<Style name="MultiPolygon">'+
 '<Rule>'+
 '  <LineSymbolizer stroke="black" stroke-width="2" />'+
 '  <PolygonSymbolizer fill="[fill]" />'+
-'  <TextSymbolizer face-name="Arial Regular" placement-type="simple" placement="X" allow-overlap="true" halo-radius="2">[name]</TextSymbolizer>'+
+'  <TextSymbolizer face-name="DejaVu Sans Book" placement-type="simple" placement="point" allow-overlap="true" halo-radius="2">[name]</TextSymbolizer>'+
 '</Rule>'+
 '</Style>';
 
