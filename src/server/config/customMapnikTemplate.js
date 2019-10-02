@@ -1,4 +1,4 @@
-var oldtemplate = '<Map srs="+init=epsg:3857">' +
+/* var oldtemplate = '<Map srs="+init=epsg:3857">' +
 '    <Style name="geoms">' +
 '        <Rule>' +
 '            <Filter>[mapnik::geometry_type]=polygon or [fill]</Filter>' +
@@ -27,7 +27,7 @@ var oldtemplate = '<Map srs="+init=epsg:3857">' +
 '            <Parameter name="inline"><![CDATA[{{geojson}}]]></Parameter>'+
 '        </Datasource>'+
 '    </Layer>'+
-'</Map>';
+'</Map>'; */
 
 var template = {};
 
@@ -53,6 +53,11 @@ template.styleBlock = '<Style name="Polygon">'+
 '  <PolygonSymbolizer fill="[fill]" />'+
 '  <TextSymbolizer face-name="DejaVu Sans Book" placement-type="simple" placement="point" allow-overlap="true" halo-radius="2">[name]</TextSymbolizer>'+
 '</Rule>'+
+'</Style>'+
+'<Style name="Point">'+
+'<Rule>'+
+'  <TextSymbolizer face-name="DejaVu Sans Book" placement-type="simple" placement="point" allow-overlap="true" halo-radius="2">[name]</TextSymbolizer>'+
+'</Rule>'+
 '</Style>';
 
 template.parcelLayerBlock ='    <Layer name="layer" srs="+init=epsg:4326">'+
@@ -69,6 +74,14 @@ template.streetLayerBlock ='    <Layer name="layer" srs="+init=epsg:4326">'+
 '        <Datasource>'+
 '            <Parameter name="type">geojson</Parameter>'+
 '            <Parameter name="inline"><![CDATA[{{streetgeojson}}]]></Parameter>'+
+'        </Datasource>'+
+'    </Layer>';
+
+template.labelsLayerBlock ='    <Layer name="layer" srs="+init=epsg:4326">'+
+'        <StyleName>Point</StyleName>'+
+'        <Datasource>'+
+'            <Parameter name="type">geojson</Parameter>'+
+'            <Parameter name="inline"><![CDATA[{{labelgeojson}}]]></Parameter>'+
 '        </Datasource>'+
 '    </Layer>';
 

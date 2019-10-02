@@ -83,12 +83,12 @@ customMapnikify.prototype.generateXML = function generateXML(parcelResultSet,str
 			return reject(new Error("Zero length result set provided to mapnikify parser"));
 		}
 		let theXML = template.mapStart + template.styleBlock;
-		let firstParcelGeoJSON = normalize(getJSONFromStringOrJSON(parcelResultSet[0].shape));
+		let firstParcelGeoJSON = normalize(getJSONFromStringOrJSON(parcelResultSet[0].centerpoint));
 		if (!firstParcelGeoJSON) { return reject(new Error('invalid geoJSON')); }
 		firstParcelGeoJSON.features[0].properties.name = parcelResultSet[0].address;
-		firstParcelGeoJSON.features[0].properties.fill = "#0080FF";
 		let parcelGeoJSON = normalize(getJSONFromStringOrJSON(parcelResultSet[0].shape));
-		parcelGeoJSON.features = [];
+		if (!parcelGeoJSON) { return reject(new Error('invalid geoJSON')); }
+		parcelGeoJSON.features[0].properties.fill = "#0080FF";
 		for (let i=1; i<parcelResultSet.length; i++) {
 			let curShape = normalize(getJSONFromStringOrJSON(parcelResultSet[i].shape));
 			let gj = normalize(curShape);
@@ -115,7 +115,7 @@ customMapnikify.prototype.generateXML = function generateXML(parcelResultSet,str
 			}
 			theXML += template.streetLayerBlock.replace('{{streetgeojson}}',JSON.stringify(streetGeoJSON));
 		}
-		theXML += template.parcelLayerBlock.replace('{{parcelgeojson}}',JSON.stringify(firstParcelGeoJSON));
+		theXML += template.labelsLayerBlock.replace('{{labelgeojson}}',JSON.stringify(firstParcelGeoJSON));
 		theXML += template.mapEnd;
 		resolve(theXML);
 	});
