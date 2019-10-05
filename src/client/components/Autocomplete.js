@@ -52,7 +52,9 @@ export default class Autocomplete extends React.Component {
                  onBlur={this.onBlur.bind(this)} 
                  onChange={this.onChange.bind( this )} 
                  placeholder="Ex. STAFFORD ST" 
-                 id={this.state.inputName}/> 
+                 id={this.state.inputName}
+                 autoComplete="off"
+                 className="form-control"/> 
 
                 {function(){
                     if( this.state.results.length ) {
