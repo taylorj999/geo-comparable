@@ -72,36 +72,30 @@ export default class PropertySearch extends Component {
       <div className="container">
 		<div className="row">
 		  <form onSubmit={this.searchFormSubmit}>
-		    <div className="form-row d-flex align-items-center">
-		      <div className="col-6">
-		        <div className="form-group">
-		          <label htmlFor="streetNameInput">Street Name</label>
-		          <AutocompleteDataComponent inputName="streetNameInput"/>
-		        </div>
+		    <div className="form-row d-flex align-items-end">
+		      <div className="col-6 form-group">
+ 	            <label htmlFor="streetNameInput">Street Name</label>
+		        <AutocompleteDataComponent inputName="streetNameInput"/>
 		      </div>
-		      <div className="col">
-		        <div className="form-group">
-		          <label htmlFor="minPriceInput">Min. Price</label>
-		          <input 
+		      <div className="col form-group">
+		        <label htmlFor="minPriceInput">Min. Price</label>
+		        <input 
 		           type="text" 
 		           className="form-control" 
 		           id="minPriceInput" 
 		           placeholder="0" 
 		           onChange={(e) => this.requireNumeric(e)}/>
-		        </div>
 	          </div>
-		      <div className="col">
-		        <div className="form-group">
-		          <label htmlFor="maxPriceInput">Max. Price</label>
-		          <input 
+		      <div className="col form-group">
+		        <label htmlFor="maxPriceInput">Max. Price</label>
+		        <input 
 		           type="text" 
 		           className="form-control" 
 		           id="maxPriceInput" 
 		           placeholder="500000"
 		           onChange={(e) => this.requireNumeric(e)}/>
-		        </div>
 		      </div>
-		      <div className="col">
+		      <div className="col form-group">
 		        <button type="submit" className="btn btn-primary">Search</button>
 		      </div>
 		    </div>
