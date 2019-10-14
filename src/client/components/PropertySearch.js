@@ -70,7 +70,6 @@ export default class PropertySearch extends Component {
   render() {
 	return(
       <div className="container">
-		<div className="row">
 		  <form onSubmit={this.searchFormSubmit}>
 		    <div className="form-row d-flex align-items-end">
 		      <div className="col-6 form-group">
@@ -100,11 +99,8 @@ export default class PropertySearch extends Component {
 		      </div>
 		    </div>
 		  </form>
-	    </div>
 	    <div className="row">
-	      <div className="container">
-	        <div className="row">
-	          <div className="col-6">
+          <div className="col-6">
 	            {function(){
 	            	if(this.state.propCount > 0) {
 	            	  try {
@@ -120,8 +116,8 @@ export default class PropertySearch extends Component {
 	            	}
 	            }.bind(this)()}
 	            <PropertyDetailList properties={this.state.properties} mapFunction={this.updateMap.bind(this)} currentProperty={this.state.currentProperty}/>
-	          </div>
-	          <div className="col-6">
+	      </div>
+	      <div className="col-6">
 	          {function(){
                 if( this.state.currentProperty ) {
                   let imgKey = this.state.currentProperty;
@@ -130,8 +126,6 @@ export default class PropertySearch extends Component {
                   return null;	
                 }
 	          }.bind(this)()}
-	          </div>
-	        </div>
 	      </div>
 	    </div>
 	  </div>
