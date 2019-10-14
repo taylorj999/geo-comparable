@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 var placeholderImg = require('../../../public/images/GeneratingPlaceholder.png');
 
+const hiddenStyle = { visibility: 'hidden' };
+
 export default class MapnikImage extends Component {
   constructor(props) {
 	super(props);
@@ -23,8 +25,8 @@ export default class MapnikImage extends Component {
 	} else {
   	  return(<div>
 	           <img src={placeholderImg} className="figure-img img-fluid rounded"/>
-               <div className="hidden">
-                 <img src={imageUrl} id="generatedimage" className="hidden" onLoad={this.onImageLoaded.bind(this)}/>
+               <div style={hiddenStyle}>
+                 <img src={imageUrl} id="generatedimage" style={hiddenStyle} onLoad={this.onImageLoaded.bind(this)}/>
                </div>
              </div>);
     }
