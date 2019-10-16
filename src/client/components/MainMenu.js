@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Navbar, NavbarBrand } from 'reactstrap';
 import ContentWell from './ContentWell';
 
 export default class MainMenu extends Component {
@@ -10,14 +9,17 @@ export default class MainMenu extends Component {
   render() {
     return (
       <div>
-        <Navbar dark color="primary">
-          <div className="container">
-            <NavbarBrand href="/" className="mx-auto">
-              {" "}
-              Geo-Comparable Demo{" "}
-            </NavbarBrand>
+        <div className="nav navbar navbar-expand-lg navbar-dark bg-primary" role="navigation">
+          <a className="navbar-brand" href="/">Geo-Comparable Demo</a>
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div className="navbar-nav">
+              <a className="nav-item nav-link active" href="http://www.github.com/taylorj999/geo-comparable" target="_new">Source</a>
+            </div>
           </div>
-        </Navbar>
+        </div>
         <ContentWell/>
       </div>
     );
