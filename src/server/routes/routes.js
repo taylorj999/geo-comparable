@@ -7,27 +7,6 @@ var sanitizers = require('../config/sanitizers');
 
 module.exports = function(app, dataSource) {
 	"use strict";
-
-	/*
-	app.get('/testRender', (req,res) => {
-		var gen = new mapEngine();
-
-		gen.renderTestMap().then(function(image) { res.type('png'); res.send(image); }, function(err) { throw (err); });
-	});
-	*/
-	
-	/*
-	app.get('/testDatasource', (req,res) => {
-		var autoE = new autocompleteEngine();
-		
-		autoE.getSuggestions('ST%',dataSource)
-		     .then(function(rows) {
-		 		
-		 		res.send("<HTML><BODY>" + rows + "</BODY></HTML>");
-		    	 
-		     });
-	});
-	*/
 	
 	app.post('/api-autocomplete', (req,res) => {
 		let autoE = new autocompleteEngine();

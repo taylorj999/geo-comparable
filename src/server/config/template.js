@@ -1,3 +1,6 @@
+
+/* DEPRECATED USE customMapnikTemplate.js */
+
 var template = '<Map srs="+init=epsg:3857">' +
 '    <Style name="geoms">' +
 '        <Rule>' +

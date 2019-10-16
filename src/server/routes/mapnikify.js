@@ -19,6 +19,10 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.<Paste>
 /*
  * Heavily based on geojson-mapnikify by Mapbox, see above notice.
  */
+
+/* 
+ * DEPRECATED USE customMapnikify.js INSTEAD
+ */
 var normalize = require('@mapbox/geojson-normalize'),
 	path = require('path'),
 	fs = require('fs'),

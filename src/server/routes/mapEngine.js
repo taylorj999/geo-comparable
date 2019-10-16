@@ -6,8 +6,6 @@ var mapnik = require('mapnik');
 
 var getJSONFromStringOrJSON = require('../utils/smartparse');
 
-//var testgeojson = {"type": "LineString", "coordinates": [[-82.4496866310505, 35.5915995599292], [-82.4497487278246, 35.5916773944812], [-82.4497053968081, 35.5918605867524], [-82.4496829370215, 35.5920193226531], [-82.4496899113975, 35.592183188315], [-82.4496279260762, 35.5923323091867], [-82.4495304232162, 35.592554624062], [-82.4495191586693, 35.5927190075827], [-82.4495641971038, 35.5929060361562]]};
-
 var mapnikify = new customMapnikify();
 
 function mapEngine() {
@@ -17,12 +15,13 @@ function mapEngine() {
 	"use strict";
 };
 
-/*
- * fromStringPromise: a wrapper for the mapnik fromString function that converts the callback into a Promise
+/**
+ * fromStringPromise: a wrapper for the mapnik fromString function that converts the callback into a Promise.
  * 
- * Expects:
- *   map : an initialized mapnik.Map
- *   xml : a valid mapnikified geoJSON document
+ * @param	map		An initialized mapnik.Map object.
+ * @param	xml		A string containing a valid mapnikified geoJSON xml document.
+ * 
+ * @return	The mapnik.Map object, loaded with the geoJSON xml.
  */
 mapEngine.prototype.fromStringPromise = function fromStringPromise(map,xml) {
 	return new Promise(function(resolve,reject) {
@@ -33,7 +32,19 @@ mapEngine.prototype.fromStringPromise = function fromStringPromise(map,xml) {
 	});
 };
 
-mapEngine.prototype.convertToWebMercator = function convertToWebMercator(x,y,radius) {
+/**
+ * generateBoundingBox: Given an x/y point and a radius, generate a valid geospatial bounding box.
+ * 
+ * Because mapnik uses "web mercator" to actually define map bounding boxes, it is necessary to convert latitude and longitude
+ * to "web mercator" coordinates in order to show the map properly.
+ * 
+ * @param	x		Center point of bounding box, latitude.
+ * @param	y		Center point of bounding box, longitude.
+ * @param	radius	Radius of bounding box, in miles (can be fractional, e.g. 0.5).
+ * 
+ * @return  Array	The upper left and lower right coordinates of the bounding box.
+ */
+mapEngine.prototype.generateBoundingBox = function generateBoundingBox(x,y,radius) {
 	const eqRadius = 6378137;
 	const eqShift = Math.PI * eqRadius;
 	const radiusInDegrees = radius / 69;
@@ -48,6 +59,19 @@ mapEngine.prototype.convertToWebMercator = function convertToWebMercator(x,y,rad
 	return [x1,y1,x2,y2];
 }
 
+/**
+ * renderMapFromXML: Generates a map image using the mapnik library.
+ * 
+ * This function handles the several steps required to go from geoJSON data to a final generated image using mapnik. 1. Create a new
+ * Map object and load it with the provided geospatial data. 2. Generate the bounding box limit of the map. 3. Create a new Image
+ * object and render the map into it.
+ * 
+ * @param	geoXML			A string containing a valid mapnikified geoJSON xml document.
+ * @param	centerpoint		A JSON object representing a geoJSON point.
+ * @param	radius			Radius of map to be generated around the point represented by centerpoint.
+ * 
+ * @return	Buffer			A binary buffer object containing the PNG image of the generated map.
+ */
 mapEngine.prototype.renderMapFromXML = function renderMapFromXML(geoXML,centerpoint,radius) {
 	var self=this;
 	return new Promise((resolve, reject) => {
@@ -59,7 +83,7 @@ mapEngine.prototype.renderMapFromXML = function renderMapFromXML(geoXML,centerpo
 					let center = getJSONFromStringOrJSON(centerpoint);
 					let x = center.coordinates[0];
 					let y = center.coordinates[1];
-					boundingBox = self.convertToWebMercator(x,y,radius);
+					boundingBox = self.generateBoundingBox(x,y,radius);
 				} catch (e) { console.error(e); };
 				if (boundingBox != null) {
 					newMap.zoomToBox(boundingBox);
@@ -81,6 +105,20 @@ mapEngine.prototype.renderMapFromXML = function renderMapFromXML(geoXML,centerpo
 	});
 }
 
+/**
+ * mapnikifyResults: Wrapper for the mapnikify function that converts geoJSON to geoXML
+ * 
+ * Takes in the results of the propertyDAO search function directly. Any preprocessing of the result sets should take place here.
+ * 
+ * @see			customMapnikify.js
+ * 
+ * @param		resultSet					Object containing the results of the propertyDAO search function.
+ * @param		resultSet.parcelResultSet	Array of parcel (property) data.
+ * @param		resultSet.streetResultSet	Array of street data.
+ * @param		radius						Radius of map to be generated (in miles).
+ * 
+ * @return		String						String containing the geoXML document representing the provided data.
+ */
 mapEngine.prototype.mapnikifyResults = function mapnikifyResults(resultSet, radius) {
 	return new Promise((resolve,reject) => {
 		mapnikify.generateXML(resultSet.parcelResultSet, resultSet.streetResultSet, radius)

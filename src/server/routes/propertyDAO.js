@@ -5,6 +5,27 @@ function propertyDAO () {
 	"use strict";
 }
 
+/**
+ * doPropertySearch: Given the parameters entered by the user, build and execute the search query.
+ * 
+ * Valid search combinations are:
+ * 1) Street + MinPrice + MaxPrice
+ * 2) Street + MinPrice
+ * 3) Street + MaxPrice
+ * 4) MinPrice + MaxPrice
+ * 5) Street.
+ * In order to significantly reduce the cost of matching using LIKE, we join on the streetnames table from autocomplete
+ * before matching from the searchable parcels table.
+ * 
+ * @param	streetName		Streetname to match on. This is searched as a LIKE.
+ * @param	minPrice		Minimum price. Numeric.
+ * @param	maxPrice		Maximum price. Numeric.
+ * @param	resultsPage		Pagination page of results to display.
+ * @param	dataSource		Database connection or pool.
+ * 
+ * @return	Object			Object containing {data,count} where data is the search results and count the total number of
+ * 							records available (for pagination purposes).
+ */
 propertyDAO.prototype.doPropertySearch = function doPropertySearch(streetName, minPrice, maxPrice, resultsPage, dataSource) {
 	return new Promise((resolve,reject) => {
 	  let checker = new inputchecker();
@@ -74,6 +95,20 @@ propertyDAO.prototype.doPropertySearch = function doPropertySearch(streetName, m
 	});
 }
 
+/**
+ * doGridSearch: Retrieve all parcels and streets within a given distance of the search property.
+ * 
+ * The actual search is run as a bounding box rather than a circle.
+ * 
+ * @param		propertyId		Unique database id of the property we are searching around.
+ * @param		radius			Distance to edges of the bounding box, from the property center point.
+ * @param		dataSource		Database connection or pool.
+ * 
+ * @return		Object			Object containing {parcelResultSet,streetResultSet,centerpoint} where
+ * 								parcelResultSet is the output from the ParcelsInProximity procedure,
+ * 								streetResultSet is the output from the StreetsInProximity procedure,
+ * 								and centerpoint is the center of the property being searched on (used to center the map).
+ */
 propertyDAO.prototype.doGridSearch = function doGridSearch(propertyId, radius, dataSource) {
 	return new Promise((resolve, reject) => {
       let checker = new inputchecker();
