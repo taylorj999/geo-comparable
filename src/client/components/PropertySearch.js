@@ -80,7 +80,7 @@ export default class PropertySearch extends Component {
 	return(
       <div className="container" id="propertySearch">
 		  <form onSubmit={this.searchFormSubmit}>
-		    <div className="row border border-primary mt-1">
+		    <div className="row border border-primary mt-1 rounded">
 		      <div className="row m-1">
 		        <div className="col">
 		          <h4>Search Property Records</h4>
