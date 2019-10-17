@@ -24,7 +24,7 @@ export default class MapnikImage extends Component {
 		return <img src={imageUrl} id="generatedimage" className="figure-img img-fluid border border-primary rounded"/>
 	} else {
   	  return(<div>
-	           <img src={placeholderImg} className="figure-img img-fluid border border-primary rounded"/>
+	           <img src={placeholderImg} className="figure-img img-fluid border border-primary rounded" height="512" width="512"/>
                <div style={hiddenStyle}>
                  <img src={imageUrl} id="generatedimage" style={hiddenStyle} onLoad={this.onImageLoaded.bind(this)}/>
                </div>

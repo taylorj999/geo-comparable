@@ -29,7 +29,7 @@ export default class PropertyDetailList extends Component {
             {function() {
             	if (this.props.mapFunction!=undefined) {
                   if (row.ogr_fid != this.props.currentProperty) {
-            		return <a href="#" className="btn btn-primary ml-auto" onClick={(e) => this.handleClick(row.ogr_fid)}>Map It!</a>
+            		return <button className="btn btn-primary ml-auto" onClick={(e) => this.handleClick(row.ogr_fid)}>Map It!</button>
                   } else {
                 	return <button type="button" className="btn btn-secondary ml-auto" disabled>Map It!</button>
                   }
