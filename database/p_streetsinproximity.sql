@@ -11,7 +11,7 @@ BEGIN
     FROM search_parcels
     WHERE ogr_fid = propId;
     SELECT
-        st_buffer(areaCenter,searchRadius/69,ST_Buffer_Strategy('point_square'))
+        st_buffer(areaCenter,(searchRadius/69)*1.25,ST_Buffer_Strategy('point_square'))
 	INTO areaBounding
 	FROM dual;
     SELECT streetname, st_asgeojson(shape) as shape FROM search_streets 
