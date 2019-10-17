@@ -30,7 +30,7 @@ export default class DefaultHome extends Component {
        	    </div>
       	  </div>
       	  <div className="col">
-      	    <img src={exampleImg} className="figure-img img-fluid border border-primary rounded"/>
+      	    <img src={exampleImg} className="figure-img img-fluid border border-primary rounded mt-1"/>
       	  </div>
       	</div>
       </div>
