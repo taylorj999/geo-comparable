@@ -21,10 +21,10 @@ export default class MapnikImage extends Component {
 		imageUrl += "&radius=" + this.props.radius;
 	}
 	if (this.state.loadedImage) {
-		return <img src={imageUrl} id="generatedimage" className="figure-img img-fluid rounded"/>
+		return <img src={imageUrl} id="generatedimage" className="figure-img img-fluid border border-primary rounded"/>
 	} else {
   	  return(<div>
-	           <img src={placeholderImg} className="figure-img img-fluid rounded"/>
+	           <img src={placeholderImg} className="figure-img img-fluid border border-primary rounded"/>
                <div style={hiddenStyle}>
                  <img src={imageUrl} id="generatedimage" style={hiddenStyle} onLoad={this.onImageLoaded.bind(this)}/>
                </div>
