@@ -12,7 +12,7 @@ export default class MainMenu extends Component {
     
   render() {
     return (
-      <div className="container">
+      <div className="container" id="defaultSearchResults">
         <div className="row">
           <div className="col">
             <PropertyDetailList properties={this.state.properties}/>

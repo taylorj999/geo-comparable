@@ -78,7 +78,7 @@ export default class PropertySearch extends Component {
   
   render() {
 	return(
-      <div className="container">
+      <div className="container" id="propertySearch">
 		  <form onSubmit={this.searchFormSubmit}>
 		    <div className="form-row d-flex align-items-end">
 		      <div className="col-6 form-group">

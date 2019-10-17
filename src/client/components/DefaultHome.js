@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import MapnikImage from './MapnikImage';
 
+import LinkButton from './LinkButton'
+
 var exampleImg = require('../../../public/images/ExampleImage.png');
 
 export default class DefaultHome extends Component {
@@ -10,7 +12,7 @@ export default class DefaultHome extends Component {
   
   render() {
     return (
-      <div className="container">
+      <div className="container" id="defaultHome">
       	<div className="row">
       	  <div className="col d-flex align-content-start flex-wrap">
       	    <p>This demo generates a visual comparison of the assessed value for properties surrounding the selected property.
@@ -22,10 +24,10 @@ export default class DefaultHome extends Component {
       	    North Carolina and rendered using the <a href="https://github.com/mapnik/node-mapnik">Mapnik</a> library.</p>
       	    <div className="row w-100">
       	      <div className="col-6">
-       	        <button id="defaultSearchResultsButton" className="btn btn-secondary" onClick={() => this.props.contentWellSelect('defaultSearchResults')}>Use Example Properties</button>
-       	      </div>
+      	        <LinkButton to="/examples" className="btn btn-secondary" id="defaultSearchResultsButton">Use Example Properties</LinkButton>
+      	      </div>
        	      <div className="col-6">
-       	        <button id="propertySearchButton" className="btn btn-secondary" onClick={() => this.props.contentWellSelect('propertySearch')}>Search for Properties</button>
+    	        <LinkButton to="/search" className="btn btn-secondary" id="propertySearchButton">Search for Properties</LinkButton>
        	      </div>
        	    </div>
       	  </div>
