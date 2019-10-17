@@ -14,7 +14,11 @@ const API_KEY = config.client.api_key;
 export default class PropertySearch extends Component {
   constructor(props) {
 	super(props);
-	this.state = {properties: [], propCount: 0, currentPage: 1, streetName:null,minPrice:null,maxPrice:null};
+	this.state = {properties: [], propCount: 0, currentPage: 1, 
+			      streetName:null,
+			      minPrice:null,
+			      maxPrice:null,
+			      errorMessage:null};
 	this.searchFormSubmit = this.searchFormSubmit.bind(this);
   }
   
@@ -46,12 +50,17 @@ export default class PropertySearch extends Component {
     .then(res => {
       if (res.data.status === "success") {
     	let currentProperty = null;
+    	let errorMessage = null;
+    	let errorType = null;
     	if (res.data.data.length) { currentProperty = res.data.data[0].ogr_fid; }
+    	else { errorMessage = "No property results found."; errorType = "warning"; }
     	this.setState({properties: res.data.data, propCount: res.data.count, currentProperty: currentProperty, 
     		           currentPage: pageNumber, streetName: searchState.streetName, 
-    		           minPrice: searchState.minPrice, maxPrice: searchState.maxPrice});
+    		           minPrice: searchState.minPrice, maxPrice: searchState.maxPrice, errorMessage: errorMessage,
+    		           errorType: errorType});
       } else {
     	console.log("Error in API component, see server logs for details");
+    	this.setState({errorMessage:"An API error occurred. Please try again.",errorType:"error"});
       }
     })
     .catch(function (error) {
@@ -82,7 +91,7 @@ export default class PropertySearch extends Component {
 		           type="text" 
 		           className="form-control" 
 		           id="minPriceInput" 
-		           placeholder="0" 
+		           placeholder="Ex. 0" 
 		           onChange={(e) => this.requireNumeric(e)}/>
 	          </div>
 		      <div className="col form-group">
@@ -91,7 +100,7 @@ export default class PropertySearch extends Component {
 		           type="text" 
 		           className="form-control" 
 		           id="maxPriceInput" 
-		           placeholder="500000"
+		           placeholder="Ex. 500000"
 		           onChange={(e) => this.requireNumeric(e)}/>
 		      </div>
 		      <div className="col form-group">
@@ -113,6 +122,18 @@ export default class PropertySearch extends Component {
 	                            pageRange={3}
 	                            onPageChange={this.handlePageChange.bind(this)}/>
 	            	  } catch (e) { }
+	            	} else {
+	            		if (this.state.errorType==="warning") {
+	            		  return (
+	            			<div className="alert alert-warning" role="alert">
+	            	           {this.state.errorMessage}
+	            	        </div>);
+	            		} else if (this.state.errorType==="error") {
+		            	  return (
+		  	            	<div className="alert alert-error" role="alert">
+		  	            	   {this.state.errorMessage}
+		  	            	</div>);
+	            		}
 	            	}
 	            }.bind(this)()}
 	            <PropertyDetailList properties={this.state.properties} mapFunction={this.updateMap.bind(this)} currentProperty={this.state.currentProperty}/>

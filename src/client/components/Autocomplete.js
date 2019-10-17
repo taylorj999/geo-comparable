@@ -62,7 +62,7 @@ export default class Autocomplete extends React.Component {
                             return <li className="dropdown-item" onClick={(e) => this.select(index)}>{item}</li>
                         }.bind( this )) : ''}</ul>
                     } else if ( this.state.emptySearchResults ){
-                    	return <ul className="dropdown-menu show"><li className="dropdown-item"><i>No streets found.</i></li></ul>
+                    	return <ul className="dropdown-menu show"><li className="dropdown-item text-danger"><i>No streets found.</i></li></ul>
                     }
                 }.bind(this)()}
             </div>
