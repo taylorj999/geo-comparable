@@ -80,7 +80,13 @@ export default class PropertySearch extends Component {
 	return(
       <div className="container" id="propertySearch">
 		  <form onSubmit={this.searchFormSubmit}>
-		    <div className="form-row d-flex align-items-end">
+		    <div className="row border border-primary mt-1">
+		      <div className="row m-1">
+		        <div className="col">
+		          <h4>Search Property Records</h4>
+		        </div>
+		      </div>
+		    <div className="form-row d-flex align-items-end mt-1">
 		      <div className="col-6 form-group">
  	            <label htmlFor="streetNameInput">Street Name</label>
 		        <AutocompleteDataComponent inputName="streetNameInput"/>
@@ -107,8 +113,9 @@ export default class PropertySearch extends Component {
 		        <button type="submit" className="btn btn-primary">Search</button>
 		      </div>
 		    </div>
+		    </div>
 		  </form>
-	    <div className="row">
+	    <div className="row mt-1">
           <div className="col-6">
 	            {function(){
 	            	if(this.state.propCount > 0) {

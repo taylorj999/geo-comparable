@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {NavLink} from 'react-router-dom';
-import ContentWell from './ContentWell';
 
 export default class MainMenu extends Component {
   constructor(props) {
