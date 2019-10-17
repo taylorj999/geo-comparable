@@ -43,7 +43,6 @@
     "queue-async": "^1.2.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "reactstrap": "^8.0.1",
     "request": "^2.88.0",
     "validator": "^11.1.0",
     "xtend": "^4.0.2"
