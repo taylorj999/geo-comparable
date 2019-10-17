@@ -20,8 +20,8 @@ export default class DefaultHome extends Component {
       	    surrounding properties, or being located near properties with far lower assessed values, which might not be immediately
       	    apparent on other types of searches.</p>
       	    <p>For demonstration purposes the database is limited to the city of Asheville, North Carolina and surroundings.</p>
-      	    <p>The comparison map is generated using the GIS data from <a href="https://www.buncombecounty.org/Governing/Depts/GIS/download-digital-data.aspx#downloadable-data">Buncombe County</a>,
-      	    North Carolina and rendered using the <a href="https://github.com/mapnik/node-mapnik">Mapnik</a> library.</p>
+      	    <p>The comparison map is generated using the GIS data from the <a href="https://www.buncombecounty.org/Governing/Depts/GIS/download-digital-data.aspx#downloadable-data">Buncombe County</a>,
+      	    North Carolina property tax records and rendered using the <a href="https://github.com/mapnik/node-mapnik">Mapnik</a> library.</p>
       	    <div className="row w-100">
       	      <div className="col-6">
       	        <LinkButton to="/examples" className="btn btn-secondary" id="defaultSearchResultsButton">Use Example Properties</LinkButton>
