@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import MapnikImage from './MapnikImage';
+import MapColorKey from './MapColorKey';
 
 export default class MapnikImageContainer extends Component {
   constructor(props) {
@@ -41,7 +42,8 @@ export default class MapnikImageContainer extends Component {
 	    <div className="row">
 	      <div className="col-12">
 	        <MapnikImage propertyId={this.props.propertyId} radius={this.state.radius} key={imageComponentKey}/>
- 	      </div>
+	        <MapColorKey/>
+	      </div>
 	    </div>
 	  </div>);
   }

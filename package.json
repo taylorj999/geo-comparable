@@ -45,6 +45,7 @@
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.1.2",
     "request": "^2.88.0",
+    "svg-inline-react": "^3.2.0",
     "validator": "^11.1.0",
     "xtend": "^4.0.2"
   },
