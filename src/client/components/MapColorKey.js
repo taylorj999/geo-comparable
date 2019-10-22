@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import InlineSVG from 'svg-inline-react';
 
-const svgSource = `<svg width="512" height="128" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+const svgSource = `<svg width="100%" viewBox="0 0 512 84" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
 	 <g transform="scale(1,0.7) translate(0,19)">
 	  <polygon stroke-width="0" points="0,84 0,42 47,42 47,75.8 0,84 " fill="#990000" id="svg_00"/>
 	  <polygon stroke-width="0" points="47,75.8 47,42 94,42 94,67 47,75.8 " fill="#B31A1A" id="svg_01"/>
